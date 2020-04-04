@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/titleImageView"
+        android:contentDescription="@string/welcome_image_is_shown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -25,7 +26,7 @@
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome Student!  We are excited that you’ve chosen WGU to further your education!  Below you will find your Term infromation."
+        android:text="@string/welcome_student_we_are_excited_that_you_ve_chosen_wgu_to_further_your_education_below_you_will_find_your_term_infromation"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.73"
@@ -39,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:text="Current Term"
+        android:text="@string/current_term"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:text="View All Terms"
+        android:text="@string/view_all_terms"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

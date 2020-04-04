@@ -10,5 +10,9 @@ public class AllTerms extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_terms);
+
+        /*Intent intent = getIntent();
+        String name =intent.getStringExtra("");
+        log.d(TAG, name);*/
     }
 }

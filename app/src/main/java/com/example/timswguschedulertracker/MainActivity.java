@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
      * Methods and Actions that do things  *
      ****************************************/
 
+    //Method for changing view
     private void showTermView() {
         Intent intent = new Intent(this,AllTerms.class);
+        // to pass a key intent.putExtra("name",name);
         startActivity(intent);
     }
 }
