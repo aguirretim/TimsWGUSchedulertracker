@@ -1,8 +1,10 @@
-package com.example.timswguschedulertracker;
+package com.example.timswguschedulertracker.screensandviewscontrollers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.timswguschedulertracker.R;
 
 public class AllTerms extends AppCompatActivity {
 

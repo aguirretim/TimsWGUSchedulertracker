@@ -1,4 +1,4 @@
-package com.example.timswguschedulertracker;
+package com.example.timswguschedulertracker.screensandviewscontrollers;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -10,7 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.timswguschedulertracker.R;
+
+public class HomeScreen extends AppCompatActivity {
 
     /*************************************
      * Variables for Buttons and Field.  *
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Method for changing view
     private void showTermView() {
-        Intent intent = new Intent(this,AllTerms.class);
+        Intent intent = new Intent(this, AllTerms.class);
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
     }

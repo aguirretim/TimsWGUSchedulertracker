@@ -1,4 +1,4 @@
-package com.example.timswguschedulertracker;
+package com.example.timswguschedulertracker.classesforobjects;
 
 public class Course {
 
