@@ -1,4 +1,5 @@
 package com.example.timswguschedulertracker.classesforobjects;
+import java.util.ArrayList;
 
 public class Term {
 
@@ -10,6 +11,7 @@ public class Term {
     private String TermTitle;
     private String StartDate;
     private String EndDate;
+    private ArrayList <Course> courseList;
 
     /****************************
      * Constructor for Object.  *
@@ -20,6 +22,7 @@ public class Term {
         TermTitle = termTitle;
         StartDate = startDate;
         EndDate = endDate;
+        courseList = new ArrayList<Course> ();
     }
 
     /************************
@@ -58,4 +61,21 @@ public class Term {
         EndDate = endDate;
     }
 
+    public void  appendCourse(Course crs){
+
+        courseList.add(crs);
+
+    }
+
+    public void  removeCourse(int index){
+
+        courseList.remove(index);
+
+    }
+
+    //To do find method
+    public void  findCourse(Course crs){
+
+    }
 }
+

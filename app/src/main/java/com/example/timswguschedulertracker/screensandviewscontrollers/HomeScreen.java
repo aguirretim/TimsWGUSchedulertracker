@@ -40,10 +40,14 @@ public class HomeScreen extends AppCompatActivity {
      *********************************************/
 
         View.OnClickListener listener = new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 showTermView();
+
             }
+
         };
 
         viewTermButton.setOnClickListener(listener);
@@ -56,8 +60,11 @@ public class HomeScreen extends AppCompatActivity {
 
     //Method for changing view
     private void showTermView() {
+
         Intent intent = new Intent(this, AllTerms.class);
+
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
+
     }
 }
