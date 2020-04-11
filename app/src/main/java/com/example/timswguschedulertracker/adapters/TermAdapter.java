@@ -24,6 +24,7 @@ public class TermAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context vContext;
     private LayoutInflater vInflator;
     private Term vTerm;
+    private RecyclerClickListener recyclerClickListener;
 
     /****************************
      * Constructor for Object.  *
@@ -65,12 +66,11 @@ public class TermAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return vlist.size();
     }
-
     /****************************
      * View holder binding the data ??*
      ****************************/
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView termTitle;
         TextView termStart;
@@ -81,7 +81,23 @@ public class TermAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             termTitle=(TextView)itemView.findViewById(R.id.termLabel);
             termStart=(TextView)itemView.findViewById(R.id.startDate);
             termEnd=(TextView)itemView.findViewById(R.id.endDate);
+            itemView.setOnClickListener(this);
     }
-}
 
+        @Override
+        public void onClick(View v) {
+            if (recyclerClickListener!=null){
+                recyclerClickListener.onClickPerformed(getAdapterPosition());
+            }
+        }
+    }
+
+    public void setRecyclerClickListener(RecyclerClickListener recyclerClickListener) {
+        this.recyclerClickListener = recyclerClickListener;
+    }
+
+    public interface RecyclerClickListener{
+        void onClickPerformed(int postion);
+
+    }
 }

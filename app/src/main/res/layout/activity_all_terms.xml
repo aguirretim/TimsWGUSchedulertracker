@@ -4,14 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+
     tools:context=".screensandviewscontrollers.AllTerms">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTermButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="19dp"
+        android:clickable="true"
+        android:tint="#FFFBFB"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecycleListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4CAF50" />
+        android:background="#4CAF50">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </RelativeLayout>

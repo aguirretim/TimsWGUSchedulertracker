@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screensandviewscontrollers.AllTerms"></activity>
+        <activity android:name=".screensandviewscontrollers.TermCreateView"></activity>
+        <activity android:name=".screensandviewscontrollers.TermDetailView" />
+        <activity android:name=".screensandviewscontrollers.AllTerms" />
         <activity android:name=".screensandviewscontrollers.HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

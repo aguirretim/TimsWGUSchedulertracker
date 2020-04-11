@@ -66,5 +66,8 @@ public class HomeScreen extends AppCompatActivity {
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
 
+
     }
+
+
 }
