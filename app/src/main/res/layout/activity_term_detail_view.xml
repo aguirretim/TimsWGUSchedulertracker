@@ -106,7 +106,7 @@
         tools:text="Start Date" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/courseListButton"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:text="Courses"

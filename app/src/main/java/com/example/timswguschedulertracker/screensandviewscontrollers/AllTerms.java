@@ -54,9 +54,9 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
         termList.add(TestTerm4);
 
 
-        /*********************************************
-         * Changing screens and views with buttons.  *
-         *********************************************/
+    /*********************************************
+     * Changing screens and views with buttons.  *
+     *********************************************/
 
         View.OnClickListener listener = new View.OnClickListener() {
 
