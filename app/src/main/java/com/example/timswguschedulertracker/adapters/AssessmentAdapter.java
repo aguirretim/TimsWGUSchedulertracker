@@ -8,33 +8,33 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.timswguschedulertracker.R;
-import com.example.timswguschedulertracker.classesforobjects.Course;
+import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import java.util.List;
 
-public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     /**************************************
      * initialized Variables for Object.  *
      **************************************/
 
-    private List<Course> vlist;
+    private List<Assessment> vlist;
     private Context vContext;
     private LayoutInflater vInflator;
-    private Course vCourse;
-    private CourseAdapter.RecyclerClickListener recyclerClickListener;
+    private Assessment vAssessment;
+    private AssessmentAdapter.RecyclerClickListener recyclerClickListener;
 
     /****************************
      * Constructor for Object.  *
      ****************************/
 
-    public CourseAdapter(List<Course> vlist, Context vContext) {
+    public AssessmentAdapter(List<Assessment> vlist, Context vContext) {
         this.vlist = vlist;
         this.vContext = vContext;
         vInflator = LayoutInflater.from(vContext);
     }
 
     /****************************
-     * Methods for adapter *
+     * Methods for adapter      *
      ****************************/
 
     // Responsible for telling what each cell is suppose to look like.
@@ -42,23 +42,21 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = vInflator.inflate(R.layout.course_list_item, parent, false);
-        return new CourseAdapter.ViewHolder(v);
+        View v = vInflator.inflate(R.layout.term_list_item, parent, false);
+        return new AssessmentAdapter.ViewHolder(v);
     }
 
-    // Responsible to give values to each vie in a layout
+    // Responsible to give values to each value in a layout.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        CourseAdapter.ViewHolder ViewHolder=(CourseAdapter.ViewHolder)holder;
-        vCourse = vlist.get(position);
-
-        ViewHolder.courseTitle.setText(vCourse.getCourseTitle());
-        ViewHolder.courseStart.setText(vCourse.getStartDate());
-        ViewHolder.courseEnd.setText(vCourse.getEndDate());
-        ViewHolder.courseStatus.setText(vCourse.getStatus());
+        AssessmentAdapter.ViewHolder ViewHolder=(AssessmentAdapter.ViewHolder)holder;
+        vAssessment = vlist.get(position);
+        ViewHolder.AssessmentTitle.setText(vAssessment.getAssessmentTitle());
+        ViewHolder.EndDate.setText(vAssessment.getEndDate());
+        ViewHolder.AssessmentType.setText(vAssessment.getAssessmentType());
     }
 
-    // Responsible for how many elements are in the recycle view
+    // Responsible for how many elements are in the recycle view.
     @Override
     public int getItemCount() {
         return vlist.size();
@@ -70,17 +68,17 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView courseTitle;
+        TextView AssessmentTitle;
         TextView courseStart;
-        TextView courseEnd;
-        TextView courseStatus;
+        TextView EndDate;
+        TextView AssessmentType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            courseTitle=(TextView)itemView.findViewById(R.id.courseTitle);
+            AssessmentTitle=(TextView)itemView.findViewById(R.id.courseTitle);
             courseStart=(TextView)itemView.findViewById(R.id.startDate);
-            courseEnd=(TextView)itemView.findViewById(R.id.endDate);
-            courseStatus=(TextView)itemView.findViewById(R.id.courseStatus);
+            EndDate=(TextView)itemView.findViewById(R.id.endDate);
+            AssessmentType=(TextView)itemView.findViewById(R.id.courseStatus);
             itemView.setOnClickListener(this);
         }
 
@@ -92,12 +90,13 @@ public class CourseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    public void setRecyclerClickListener(CourseAdapter.RecyclerClickListener recyclerClickListener) {
+    public void setRecyclerClickListener(AssessmentAdapter.RecyclerClickListener recyclerClickListener) {
         this.recyclerClickListener = recyclerClickListener;
     }
 
     public interface RecyclerClickListener{
         void onClickPerformed(int postion);
+
     }
 
 

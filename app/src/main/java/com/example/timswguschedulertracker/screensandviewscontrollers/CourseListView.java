@@ -35,6 +35,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
         RecycleListView.setAdapter(CourseAdapter);
         RecycleListView.setLayoutManager(new LinearLayoutManager(CourseListView.this));
 
+
         Course testCourse = new Course(23,"Tesla Application Development C199","2020-06-01","2020-12-31","In Progress","Elon Musk","425-848-9278","emusk@tesla.com");
         Course testCourse2 = new Course(25,"Apple Application Development C196","2020-09-01","2020-03-31","Plan to Take","Tim Cook","206-212-9853","tcook@gmail.com");
         Course testCourse3 = new Course(29,"Amazon Application Development C100","2020-03-01","2020-09-31","completed","Jeff Bezos","425-848-9278","emusk@gmail.com");
