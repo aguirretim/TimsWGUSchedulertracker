@@ -14,7 +14,7 @@
     ]]>
 
     <DatePicker
-        android:id="@+id/endDatePicker"
+        android:id="@+id/endDatePicker_Term"
         android:layout_width="0dp"
         android:layout_height="135dp"
         android:calendarViewShown="false"
@@ -35,10 +35,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startDatePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/startDatePicker_Term" />
 
     <DatePicker
-        android:id="@+id/startDatePicker"
+        android:id="@+id/startDatePicker_Term"
         android:layout_width="0dp"
         android:layout_height="135dp"
         android:calendarViewShown="false"

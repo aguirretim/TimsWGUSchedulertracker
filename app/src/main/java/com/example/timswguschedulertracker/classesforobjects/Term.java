@@ -12,17 +12,19 @@ public class Term {
     private String StartDate;
     private String EndDate;
     private ArrayList <Course> courseList;
+    private boolean isCurrentTerm;
 
     /****************************
      * Constructor for Object.  *
      ****************************/
 
-    public Term(int termId, String termTitle, String startDate, String endDate) {
+    public Term(int termId, String termTitle, String startDate, String endDate, boolean iscurrentterm) {
         TermId = termId;
         TermTitle = termTitle;
         StartDate = startDate;
         EndDate = endDate;
         courseList = new ArrayList<Course> ();
+        isCurrentTerm = iscurrentterm;
     }
 
     /************************

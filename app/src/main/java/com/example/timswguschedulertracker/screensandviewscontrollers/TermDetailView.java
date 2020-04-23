@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.timswguschedulertracker.R;
 
 public class TermDetailView extends AppCompatActivity {
 
-    private Button courseListButton;
+    private Button btnCourses;
+    private TextView txtCourseTitle, txtStartDate, txtEndDate;
 
 
     @Override
@@ -17,25 +20,32 @@ public class TermDetailView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_detail_view);
 
-        courseListButton = findViewById(R.id.courseListButton);
+        btnCourses = findViewById(R.id.termDetailBtnCourses);
+        txtCourseTitle = findViewById(R.id.termDetailTxtTermTitle);
+        txtStartDate = findViewById(R.id.termDetailTxtStartDate);
+        txtEndDate = findViewById(R.id.termDetailTxtEndDate);
+
+        //Get the data that was passed in from the All Terms Page
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            txtCourseTitle.setText( extras.getString("title") );
+            txtStartDate.setText(extras.getString("startDate"));
+            txtEndDate.setText(extras.getString("endDate"));
+        }
 
 
         /*********************************************
          * Changing screens and views with buttons.  *
          *********************************************/
 
-        View.OnClickListener listener = new View.OnClickListener() {
-
+        btnCourses.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                showTermView();
-
+            public void onClick(View view) {
+                //Show the current term
+                Intent intent = new Intent(TermDetailView.this, CourseListView.class);
+                startActivity(intent);
             }
-
-        };
-
-        courseListButton.setOnClickListener(listener);
+        });
 
     }
 

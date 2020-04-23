@@ -20,8 +20,8 @@ public class HomeScreen extends AppCompatActivity {
 
     private TextView welcomeText;
     private ImageView titleImageView;
-    private Button currentTermButton;
-    private Button viewTermButton;
+    private Button btnCurrentTerm;
+    private Button btnAllTerms;
     private ConstraintLayout constraintlayout;
 
     @Override
@@ -31,26 +31,34 @@ public class HomeScreen extends AppCompatActivity {
 
         // Assigns the Views from the layout file to the corresponding variables.
         welcomeText = findViewById(R.id.welcomeText);
-        currentTermButton = findViewById(R.id.currentTermButton);
-        viewTermButton = findViewById(R.id.viewTermButton);
+        //currentTermButton = findViewById(R.id.currentTermButton);
+        btnCurrentTerm = findViewById(R.id.homeBtnCurrentTerm);
+        btnAllTerms = findViewById(R.id.homeBtnViewAllTerms);
         constraintlayout = findViewById(R.id.constraintlayout);
 
     /*********************************************
      * Changing screens and views with buttons.  *
      *********************************************/
 
-        View.OnClickListener listener = new View.OnClickListener() {
-
+        btnCurrentTerm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                showTermView();
+            public void onClick(View view) {
+                //Show the current term
+                Intent intent = new Intent(HomeScreen.this, TermDetailView.class);
+                startActivity(intent);
 
             }
+        });
 
-        };
+        btnAllTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show all terms
+                showAllTermsView();
+            }
+        });
 
-        viewTermButton.setOnClickListener(listener);
+
 
     }
 
@@ -59,8 +67,7 @@ public class HomeScreen extends AppCompatActivity {
      ****************************************/
 
     //Method for changing view
-    private void showTermView() {
-
+    private void showAllTermsView() {
         Intent intent = new Intent(this, AllTerms.class);
 
         // to pass a key intent.putExtra("name",name);
