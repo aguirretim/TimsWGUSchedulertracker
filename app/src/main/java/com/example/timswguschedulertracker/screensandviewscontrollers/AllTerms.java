@@ -19,8 +19,12 @@ import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.example.timswguschedulertracker.classesforobjects.DBProvider;
 import com.example.timswguschedulertracker.classesforobjects.Term;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
 import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -46,40 +50,21 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
         RecycleListView = (RecyclerView) findViewById(R.id.RecycleListView);
 
         // TODO read from database and populate termlist
+        termList = myDb.getAllDataAsTermArrayList();
         termAdapter = new TermAdapter(termList, AllTerms.this);
         termAdapter.setRecyclerClickListener(this);
 
         RecycleListView.setAdapter(termAdapter);
         RecycleListView.setLayoutManager(new LinearLayoutManager(AllTerms.this));
 
-
-        //Test object to display in list.
-        // Term TestTerm = new Term(007, "Summer Term", "2020-06-01", "2020-12-31");
-        Term TestTerm2 = new Term(8, "Spring Term", "2020-06-01", "2020-12-31",true);
-        Term TestTerm3 = new Term(9, "Winter Term", "2020-06-01", "2020-12-31",true);
-        Term TestTerm4 = new Term(011, "Fall Term", "2020-06-01", "2020-12-31",false);
-
-        //TestData();
-       termList.add(TestTerm2);
-       termList.add(TestTerm3);
-       termList.add(TestTerm4);
-       termAdapter.notifyDataSetChanged();
-
-       // termList.add(TestTerm);
-      //  termList.add(TestTerm2);
-       // termList.add(TestTerm3);
-
-        //viewAllData();
-
-    /*********************************************
-     * Changing screens and views with buttons.  *
-     *********************************************/
+        /*********************************************
+         * Changing screens and views with buttons.  *
+         *********************************************/
 
         addTermButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTermAddView();
-
             }
         });
 
@@ -89,12 +74,15 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
     public void onClickPerformed(int position) {
         Log.e("Position clicked"," "+ position);
         //show detailed view for the term that was clicked on
+
         Term clickedTerm = termList.get(position);
 
         Intent intent = new Intent(this, TermDetailView.class);
-        intent.putExtra("title",clickedTerm.getTermTitle());
+        //Sends ID to Details Screen.
+        intent.putExtra("ID", clickedTerm.getTermId() );
+        /*intent.putExtra("title",clickedTerm.getTermTitle());
         intent.putExtra("startDate",clickedTerm.getStartDate());
-        intent.putExtra("endDate",clickedTerm.getEndDate());
+        intent.putExtra("endDate",clickedTerm.getEndDate());*/
         startActivity(intent);
 
     }
@@ -142,31 +130,6 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
     }
 
 
-    public void viewAllData() {
-
-
-                        Cursor res = myDb.getAllData();
-                        if(res.getCount() == 0) {
-                            // show message
-                            showMessage("Error","Nothing found");
-                            return;
-                        }
-
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                           int id = Integer.parseInt(res.getString(0));
-                           String title =res.getString(1);
-                           String startDate= res.getString(2);
-                           String endDate=res.getString(3);
-                           Term holderTerm= new Term(id,title,startDate,endDate,false);
-                           termList.add(holderTerm);
-                        }
-
-
-
-                        // Show all data
-                       // showMessage("Data",buffer.toString());
-    }
 
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -196,10 +159,16 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
                 //add new term
                 //TODO figure out where the user will choose whether or not this is the current term
                 Term newTerm = new Term(000, title, startDate,endDate, false);
-                termList.add(newTerm);
-                termAdapter.notifyDataSetChanged();
-
                 //TODO save item to database
+                String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+                if (myDb.insertData(title,startDate,endDate,"false",currentDate)){
+                    updateTermList();
+                } else {
+                    Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
+                }
+
+
+
 
 
             }
@@ -209,6 +178,22 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
         }
 
 
+    }
+
+    private void  updateTermList(){
+        termList = myDb.getAllDataAsTermArrayList();
+        //termAdapter.notifyDataSetChanged();
+        termAdapter = new TermAdapter(termList, AllTerms.this);
+        termAdapter.setRecyclerClickListener(this);
+        RecycleListView.setAdapter(termAdapter);
+    }
+    @Override
+    protected void onResume() {
+        //refresh data in recycler view
+        termList = null;
+        termList = new ArrayList<>();
+        updateTermList();
+        super.onResume();
     }
 }
 
