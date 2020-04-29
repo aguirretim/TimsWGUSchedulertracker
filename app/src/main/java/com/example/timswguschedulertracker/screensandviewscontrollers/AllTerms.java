@@ -44,10 +44,11 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_terms);
-        myDb = new DBOpenHelper(this);
 
         addTermButton = findViewById(R.id.addTermButton);
         RecycleListView = (RecyclerView) findViewById(R.id.RecycleListView);
+
+        myDb = new DBOpenHelper(this);
 
         // TODO read from database and populate termlist
         termList = myDb.getAllDataAsTermArrayList();
@@ -166,18 +167,8 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
                 } else {
                     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
                 }
-
-
-
-
-
             }
-
-
-
         }
-
-
     }
 
     private void  updateTermList(){

@@ -6,6 +6,7 @@ public class Course {
      * initialized Variables for Object.  *
      **************************************/
 
+    private int TermId;
     private int CourseId;
     private String CourseTitle;
     private String StartDate;
@@ -15,11 +16,14 @@ public class Course {
     private String CourseMentorPhoneNumber;
     private String CourseMentorEmailAddresses;
 
+
+
     /****************************
      * Constructor for Object.  *
      ****************************/
 
-    public Course(int courseId, String courseTitle, String startDate, String endDate, String status, String courseMentorNames, String courseMentorPhoneNumber, String courseMentorEmailAddresses) {
+    public Course(int termId,int courseId, String courseTitle, String startDate, String endDate, String status, String courseMentorNames, String courseMentorPhoneNumber, String courseMentorEmailAddresses) {
+        TermId = termId;
         CourseId = courseId;
         CourseTitle = courseTitle;
         StartDate = startDate;
@@ -33,6 +37,14 @@ public class Course {
     /************************
      * Getters and setters  *
      ************************/
+
+    public int getTermId() {
+        return TermId;
+    }
+
+    public void setTermId(int termId) {
+        TermId = termId;
+    }
 
     public int getCourseId() {
         return CourseId;

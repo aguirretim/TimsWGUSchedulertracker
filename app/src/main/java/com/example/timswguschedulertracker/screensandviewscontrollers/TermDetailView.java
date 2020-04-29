@@ -21,7 +21,8 @@ public class TermDetailView extends AppCompatActivity {
     private TextView txtCourseTitle, txtStartDate, txtEndDate;
     DBOpenHelper myDb;
     Term selectedTerm = null;
-
+    //int id;
+    int SelectedID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,8 @@ public class TermDetailView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null){
             //Receives ID from AllTerms selected term Screen.
-            int id = extras.getInt("ID");
+             int id = extras.getInt("ID");
+             SelectedID=id;
             //Searches database for term by id.
             selectedTerm = myDb.getTermObjectFromId(id);
             //Sets the attributes to the selected found object.
@@ -60,6 +62,7 @@ public class TermDetailView extends AppCompatActivity {
             public void onClick(View view) {
                 //Show the current term
                 Intent intent = new Intent(TermDetailView.this, CourseListView.class);
+                intent.putExtra("ID",selectedTerm.getTermId());
                 startActivity(intent);
             }
         });
@@ -121,6 +124,8 @@ public class TermDetailView extends AppCompatActivity {
         Intent intent = new Intent(this, CourseListView.class);
 
         // to pass a key intent.putExtra("name",name);
+        intent.putExtra("TermID", SelectedID);
+
         startActivity(intent);
 
     }

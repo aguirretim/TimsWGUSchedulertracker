@@ -4,4 +4,11 @@
     <string name="current_term">Current Term</string>
     <string name="view_all_terms">View All Terms</string>
     <string name="welcome_image_is_shown">Welcome Image is shown</string>
+
+    <string-array name="Status_Names">
+        <item>Plan To Take</item>
+        <item>In Progress</item>
+        <item>Dropped</item>
+        <item>Completed</item>
+    </string-array>
 </resources>

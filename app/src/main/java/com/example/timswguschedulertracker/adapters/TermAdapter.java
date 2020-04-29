@@ -66,8 +66,9 @@ public class TermAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return vlist.size();
     }
+
     /****************************
-     * View holder binding the data ??*
+     * View holder binding the data *
      ****************************/
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
