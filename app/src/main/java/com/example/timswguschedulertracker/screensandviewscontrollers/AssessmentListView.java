@@ -1,20 +1,22 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.adapters.AssessmentAdapter;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
-public class AssessmentListView extends AppCompatActivity implements AssessmentAdapter.RecyclerClickListener  {
+public class AssessmentListView extends AppCompatActivity implements AssessmentAdapter.RecyclerClickListener {
 
 
     AssessmentAdapter AssessmentAdapter;
@@ -29,14 +31,14 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         addAssessmentButton = findViewById(R.id.addAssessmentButton);
         RecycleListView = (RecyclerView) findViewById(R.id.RecycleListView);
 
-        AssessmentAdapter = new AssessmentAdapter(AssessmentList,AssessmentListView.this);
+        AssessmentAdapter = new AssessmentAdapter(AssessmentList, AssessmentListView.this);
         AssessmentAdapter.setRecyclerClickListener(this);
 
         RecycleListView.setAdapter(AssessmentAdapter);
         RecycleListView.setLayoutManager(new LinearLayoutManager(AssessmentListView.this));
 
         //Test object to display in list.
-        Assessment testAssessment = new Assessment(34,32,"Final Program Exam","objective assessment","2020-06-01");
+        Assessment testAssessment = new Assessment(34, 32, "Final Program Exam", "objective assessment", "2020-06-01");
 
         AssessmentList.add(testAssessment);
 
@@ -64,7 +66,7 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
 
     @Override
     public void onClickPerformed(int postion) {
-        Log.e("Position clicked"," "+ postion);
+        Log.e("Position clicked", " " + postion);
         showAssessmentDetailView();
     }
 
@@ -76,7 +78,7 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
     private void showAssessmentDetailView() {
         Intent intent = new Intent(this, TermCreateView.class);
 
-    // to pass a key intent.putExtra("name",name);
+        // to pass a key intent.putExtra("name",name);
         startActivity(intent);
 
     }

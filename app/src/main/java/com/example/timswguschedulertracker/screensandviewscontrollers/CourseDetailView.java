@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.timswguschedulertracker.R;
+import com.example.timswguschedulertracker.classesforobjects.Course;
+import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 
 public class CourseDetailView extends AppCompatActivity {
 
@@ -16,14 +18,25 @@ public class CourseDetailView extends AppCompatActivity {
      *************************************/
 
     private Button assessmentListButton;
+    Course curCourse;
+    DBOpenHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.course_detail_view);
 
+        myDB = new DBOpenHelper(this);
+
         // Assigns the Views from the layout file to the corresponding variables.
         assessmentListButton=findViewById(R.id.assessmentListButton);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            int courseId = extras.getInt("CourseID");
+            curCourse = myDB.getCourseObjectFromID(courseId);
+            int stop = 0;
+        }
 
         /*********************************************
          * Changing screens and views with buttons.  *

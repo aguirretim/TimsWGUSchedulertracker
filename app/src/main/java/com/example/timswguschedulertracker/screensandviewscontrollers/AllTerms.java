@@ -52,10 +52,16 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
 
         // TODO read from database and populate termlist
         termList = myDb.getAllDataAsTermArrayList();
-        termAdapter = new TermAdapter(termList, AllTerms.this);
-        termAdapter.setRecyclerClickListener(this);
+        if (termList != null){
+            termAdapter = new TermAdapter(termList, AllTerms.this);
+            termAdapter.setRecyclerClickListener(this);
+            RecycleListView.setAdapter(termAdapter);
 
-        RecycleListView.setAdapter(termAdapter);
+        } else {
+            Toast.makeText(this, "No terms in the databse", Toast.LENGTH_SHORT).show();
+        }
+
+
         RecycleListView.setLayoutManager(new LinearLayoutManager(AllTerms.this));
 
         /*********************************************
@@ -130,8 +136,6 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
 
     }
 
-
-
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -174,12 +178,15 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
     private void  updateTermList(){
         termList = myDb.getAllDataAsTermArrayList();
         //termAdapter.notifyDataSetChanged();
-        termAdapter = new TermAdapter(termList, AllTerms.this);
-        termAdapter.setRecyclerClickListener(this);
-        RecycleListView.setAdapter(termAdapter);
+        if (termList != null) {
+            termAdapter = new TermAdapter(termList, AllTerms.this);
+            termAdapter.setRecyclerClickListener(this);
+            RecycleListView.setAdapter(termAdapter);
+        }
     }
     @Override
     protected void onResume() {
+        //TODO this should really be onActivityResult
         //refresh data in recycler view
         termList = null;
         termList = new ArrayList<>();
