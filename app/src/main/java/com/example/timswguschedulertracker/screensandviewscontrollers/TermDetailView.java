@@ -66,7 +66,7 @@ public class TermDetailView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        // TODO (Validation so that a term cannot be deleted if courses are assigned to it)
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

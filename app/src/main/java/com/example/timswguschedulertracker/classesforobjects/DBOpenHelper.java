@@ -78,9 +78,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(s + TermTableName + s3);
 
         String courseTableString = String.format("CREATE TABLE " + CourseTableName);
-        String courseTableString2 = String.format(" (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String courseTableString2 = String.format(" (CourseID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 TermID + ", " +
-                CourseID + ", " +
                 CourseTitle + ", " +
                 CourseStart + ", " +
                 CourseEnd + ", " +
@@ -108,19 +107,31 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public boolean insertData(String pTermTitle, String pTermStart, String pTermEnd, String pTermCurrent, String pTermCreateDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+
         contentValues.put(TermTitle, pTermTitle);
         contentValues.put(TermStart, pTermStart);
         contentValues.put(TermEnd, pTermEnd);
         contentValues.put(TermCurrent, pTermCurrent);
         contentValues.put(TermCreateDate, pTermCreateDate);
+
         long result = db.insert(TermTableName, null, contentValues);
+
         if (result == -1)
             return false;
         else
             return true;
     }
 
-    public boolean insertCourseData(String pTermID, String pCourseID, String pCourseTitle, String pCourseStart, String pCourseEnd, String pCourseStatus, String pCourseMentor, String pCourseMentorPhone, String pCourseMentorEmail) {
+    public boolean insertCourseData(String pTermID,
+                                    String pCourseID,
+                                    String pCourseTitle,
+                                    String pCourseStart,
+                                    String pCourseEnd,
+                                    String pCourseStatus,
+                                    String pCourseMentor,
+                                    String pCourseMentorPhone,
+                                    String pCourseMentorEmail) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TermID, pTermID);
@@ -132,11 +143,45 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(CourseMentor, pCourseMentor);
         contentValues.put(CourseMentorPhone, pCourseMentorPhone);
         contentValues.put(CourseMentorEmail, pCourseMentorEmail);
+
         long result = db.insert(CourseTableName, null, contentValues);
+
         if (result == -1)
             return false;
         else
             return true;
+
+    }
+
+    public boolean updateCourseData(String id,
+                                    String pTermID,
+                                    String pCourseID,
+                                    String pCourseTitle,
+                                    String pCourseStart,
+                                    String pCourseEnd,
+                                    String pCourseStatus,
+                                    String pCourseMentor,
+                                    String pCourseMentorPhone,
+                                    String pCourseMentorEmail) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(TermID, pTermID);
+        contentValues.put(CourseID, pCourseID);
+        contentValues.put(CourseTitle, pCourseTitle);
+        contentValues.put(CourseStart, pCourseStart);
+        contentValues.put(CourseEnd, pCourseEnd);
+        contentValues.put(CourseStatus, pCourseStatus);
+        contentValues.put(CourseMentor, pCourseMentor);
+        contentValues.put(CourseMentorPhone, pCourseMentorPhone);
+        contentValues.put(CourseMentorEmail, pCourseMentorEmail);
+
+        int result = db.update(CourseTableName, contentValues, "ID = ?", new String[]{id});
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Cursor getAllData() {
@@ -211,8 +256,8 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         // contentValues.put(TermCurrent, pTermCurrent);
         //contentValues.put(TermCreateDate, pTermCreateDate);
 
-
         int result = db.update(TermTableName, contentValues, "ID = ?", new String[]{id});
+
         if (result != -1) {
             return true;
         } else {

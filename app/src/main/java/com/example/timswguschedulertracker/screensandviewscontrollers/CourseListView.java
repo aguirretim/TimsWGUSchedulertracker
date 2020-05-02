@@ -1,5 +1,6 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,9 +17,13 @@ import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.example.timswguschedulertracker.classesforobjects.DBProvider;
+import com.example.timswguschedulertracker.classesforobjects.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class CourseListView extends AppCompatActivity implements CourseAdapter.RecyclerClickListener {
 
@@ -29,7 +34,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
     private DBProvider db;
     DBOpenHelper myDb;
     int TermID;
-
+    private static int REQ_CODE_ADDCOURSE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +49,9 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
         //get data that was passed into this acticity
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int id = extras.getInt("TermID");
+            TermID = extras.getInt("TermID");
             //access database and populate courseList
-            courseList = myDb.getAllDataByTermIDAsCourseArrayList(id);
+            courseList = myDb.getAllDataByTermIDAsCourseArrayList(TermID);
         } else {
             Toast.makeText(this, "No TermID was passed to this activity", Toast.LENGTH_SHORT).show();
         }
@@ -57,7 +62,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
             CourseAdapter.setRecyclerClickListener(this);
             RecycleListView.setAdapter(CourseAdapter);
         } else {
-            Toast.makeText(this, "No courses for this term in the databse", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No courses for this term in the database", Toast.LENGTH_SHORT).show();
         }
 
         RecycleListView.setLayoutManager(new LinearLayoutManager(CourseListView.this));
@@ -73,7 +78,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
                 //Show the Screen you want to show
                 Intent intent = new Intent(CourseListView.this, CourseCreateView.class);
                 startActivity(intent);
-
+                startActivityForResult(intent, REQ_CODE_ADDCOURSE);
             }
         });
     }
@@ -102,7 +107,6 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
 
-
     }
 
     private void  updateTermList(){
@@ -113,5 +117,39 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
         RecycleListView.setAdapter(CourseAdapter);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //check to see which activity the data is coming back from
+        if (requestCode == REQ_CODE_ADDCOURSE){
+
+            //check to see what the result type is
+            if (resultCode == RESULT_OK){
+
+                //extract information from the data Intent (this is passed into this function as the third argument)
+                Bundle extras = data.getExtras();
+                String title = extras.getString("title");
+                String startDate = extras.getString(CourseCreateView.EXTRA_COURSE_STARTDATE);
+                String endDate = extras.getString(CourseCreateView.EXTRA_COURSE_ENDDATE);
+                String status = extras.getString(CourseCreateView.EXTRA_COURSE_STATUS);
+                String mentor = extras.getString(CourseCreateView.EXTRA_COURSE_MENTORNAME);
+                String mentorPhone = extras.getString(CourseCreateView.EXTRA_COURSE_PHONE);
+                String mentorEmail = extras.getString(CourseCreateView.EXTRA_COURSE_EMAIL);
+
+
+                //add new term
+                //TODO figure out where the user will choose whether or not this is the current term
+                Course newCourse = new Course(TermID,000, title, startDate,endDate, status,mentor,mentorPhone,mentorEmail);
+                //TODO save item to database
+                // Inserts the data from the Course obj to the database
+                if (myDb.insertCourseData(TermID+"",null,title, startDate,endDate, status,mentor,mentorPhone,mentorEmail)){
+                    updateTermList();
+                } else {
+                    Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
 
 }

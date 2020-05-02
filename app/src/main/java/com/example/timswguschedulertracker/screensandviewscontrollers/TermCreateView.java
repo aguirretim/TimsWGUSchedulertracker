@@ -39,7 +39,6 @@ public class TermCreateView extends AppCompatActivity {
         termTitleTextEdit = findViewById(R.id.termTitleTextEdit);
         startDatePicker = findViewById(R.id.startDatePicker_Term);
         endDatePicker = findViewById(R.id.endDatePicker_Term);
-
         myDb = new DBOpenHelper(this);
 
         //btnSave will set result OK
@@ -54,15 +53,19 @@ public class TermCreateView extends AppCompatActivity {
 
             SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
             try {
+
                 Date yourDate = parser.parse(selectedTerm.getStartDate());
                 //getYear returns the year minus 1900
                 startDatePicker.init(yourDate.getYear() + 1900, yourDate.getMonth(), yourDate.getDate(), null);
 
                 yourDate = parser.parse(selectedTerm.getEndDate());
+
                 endDatePicker.init(yourDate.getYear() + 1900, yourDate.getMonth(), yourDate.getDate(), null);
 
             } catch (ParseException e) {
+
                 e.printStackTrace();
+
             }
 
         }
@@ -72,10 +75,14 @@ public class TermCreateView extends AppCompatActivity {
          *********************************************/
 
         saveButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 createTerm();
+
             }
+
         });
 
         /*
@@ -108,8 +115,13 @@ public class TermCreateView extends AppCompatActivity {
         //Checks te if term is an edited term create term
         if (isEditTerm) {
             //update the database
-            if (myDb.updateData(String.valueOf(selectedTerm.getTermId()), termTitleTextEdit.getText().toString(), startDateValue, endDateValue)) {
-                Toast.makeText(this, "Updated Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
+            if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
+                    termTitleTextEdit.getText().toString(),
+                    startDateValue, endDateValue)) {
+                Toast.makeText(this,
+                        "Updated Term with ID: " +
+                                selectedTerm.getTermId(),
+                        Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
             }
@@ -129,13 +141,13 @@ public class TermCreateView extends AppCompatActivity {
 
             //todo check that dates are valid
             boolean validDates = true;
+
             if (validDates) {
                 setResult(RESULT_OK, dataToSendBack);
                 finish();
             } else {
                 Toast.makeText(this, "End Date must be after Start Date", Toast.LENGTH_LONG).show();
             }
-
 
             Toast.makeText(TermCreateView.this, termCreatedTitle,
                     Toast.LENGTH_LONG).show();

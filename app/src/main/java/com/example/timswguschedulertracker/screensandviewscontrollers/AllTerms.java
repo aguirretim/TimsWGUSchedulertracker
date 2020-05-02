@@ -68,6 +68,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
          * Changing screens and views with buttons.  *
          *********************************************/
 
+        //Event that happens after add button is clicked.
         addTermButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,13 +78,14 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
 
     }
 
+    //Event that happens after a term is selected in list.
     @Override
     public void onClickPerformed(int position) {
         Log.e("Position clicked"," "+ position);
-        //show detailed view for the term that was clicked on
 
         Term clickedTerm = termList.get(position);
 
+        //show detailed view for the term that was clicked on
         Intent intent = new Intent(this, TermDetailView.class);
         //Sends ID to Details Screen.
         intent.putExtra("ID", clickedTerm.getTermId() );
@@ -166,6 +168,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
                 Term newTerm = new Term(000, title, startDate,endDate, false);
                 //TODO save item to database
                 String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+                // Inserts the data from the term obj to the database
                 if (myDb.insertData(title,startDate,endDate,"false",currentDate)){
                     updateTermList();
                 } else {
