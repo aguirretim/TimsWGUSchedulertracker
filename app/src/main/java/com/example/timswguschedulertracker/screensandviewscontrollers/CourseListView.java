@@ -1,29 +1,24 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.adapters.CourseAdapter;
-import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.example.timswguschedulertracker.classesforobjects.DBProvider;
-import com.example.timswguschedulertracker.classesforobjects.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class CourseListView extends AppCompatActivity implements CourseAdapter.RecyclerClickListener {
 
@@ -45,6 +40,9 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
 
         addCourseButton = findViewById(R.id.addCourseButton);
         RecycleListView = (RecyclerView) findViewById(R.id.RecycleListView);
+
+
+       // courseList = myDb.getAllDataByTermIDAsCourseArrayList(TermID);
 
         //get data that was passed into this acticity
         Bundle extras = getIntent().getExtras();
@@ -93,8 +91,6 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
     }
 
 
-
-
     /****************************************
      * Methods and Actions that do things  *
      ****************************************/
@@ -109,7 +105,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
 
     }
 
-    private void  updateTermList(){
+    private void updateCourseList() {
         //courseList = myDb.getAllDataAsCourseArrayList();
         //termAdapter.notifyDataSetChanged();
         CourseAdapter = new CourseAdapter(courseList, CourseListView.this);
@@ -122,10 +118,10 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
         super.onActivityResult(requestCode, resultCode, data);
 
         //check to see which activity the data is coming back from
-        if (requestCode == REQ_CODE_ADDCOURSE){
+        if (requestCode == REQ_CODE_ADDCOURSE) {
 
             //check to see what the result type is
-            if (resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
                 //extract information from the data Intent (this is passed into this function as the third argument)
                 Bundle extras = data.getExtras();
@@ -140,16 +136,27 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
 
                 //add new term
                 //TODO figure out where the user will choose whether or not this is the current term
-                Course newCourse = new Course(TermID,000, title, startDate,endDate, status,mentor,mentorPhone,mentorEmail);
+                Course newCourse = new Course(TermID, 000, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail);
                 //TODO save item to database
                 // Inserts the data from the Course obj to the database
-                if (myDb.insertCourseData(TermID+"",null,title, startDate,endDate, status,mentor,mentorPhone,mentorEmail)){
-                    updateTermList();
+                if (myDb.insertCourseData(TermID + "", null, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail)) {
+                    updateCourseList();
                 } else {
                     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        //TODO this should really be onActivityResult
+        //refresh data in recycler view
+        courseList = null;
+        courseList = myDb.getAllDataByTermIDAsCourseArrayList(TermID);;
+        updateCourseList();
+        super.onResume();
+    }
+
 
 }

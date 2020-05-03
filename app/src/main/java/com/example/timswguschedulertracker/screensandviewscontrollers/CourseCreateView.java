@@ -69,6 +69,9 @@ public class CourseCreateView extends AppCompatActivity {
 
         myDb = new DBOpenHelper(this);
 
+    /*********************************************
+     * Changing screens and views with buttons.  *
+     *********************************************/
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

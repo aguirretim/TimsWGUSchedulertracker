@@ -1,10 +1,13 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -80,6 +83,16 @@ public class CourseDetailView extends AppCompatActivity {
 
         };
 
+        delCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show the Screen you want to show
+                showConfirmDeleteDialog();
+
+            }
+        });
+
+
         assessmentListButton.setOnClickListener(listener);
 
     }
@@ -87,6 +100,7 @@ public class CourseDetailView extends AppCompatActivity {
     /****************************************
      * Methods and Actions that do things  *
      ****************************************/
+
     //Method for changing view
     private void showCourseListView() {
 
@@ -95,8 +109,39 @@ public class CourseDetailView extends AppCompatActivity {
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
 
+    }
+
+    private void showConfirmDeleteDialog() {
+        // Use the Builder class for convenient dialog construction
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        //TODO make validation so you cant delete a term that has courses assigned to it
+
+                        int result = myDB.deleteCourseDataByID(String.valueOf(curCourse.getCourseId()));
+                        if (result != -1) {
+                            Toast.makeText(CourseDetailView.this, "Deleted Course with ID: " + curCourse.getCourseId(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(CourseDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
+                        }
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        dialog.dismiss();
+                    }
+                });
+        // Create the AlertDialog object and return
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
+
+
 
 }
 

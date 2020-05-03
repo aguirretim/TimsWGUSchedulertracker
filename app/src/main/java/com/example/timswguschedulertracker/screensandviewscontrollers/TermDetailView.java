@@ -1,7 +1,5 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
@@ -23,6 +23,7 @@ public class TermDetailView extends AppCompatActivity {
     Term selectedTerm = null;
     //int id;
     int SelectedID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +40,10 @@ public class TermDetailView extends AppCompatActivity {
 
         //Get the data that was passed in from the All Terms Page
         Bundle extras = getIntent().getExtras();
-        if (extras != null){
+        if (extras != null) {
             //Receives ID from AllTerms selected term Screen.
-             int id = extras.getInt("ID");
-             SelectedID=id;
+            int id = extras.getInt("ID");
+            SelectedID = id;
             //Searches database for term by id.
             selectedTerm = myDb.getTermObjectFromId(id);
             //Sets the attributes to the selected found object.
@@ -62,7 +63,7 @@ public class TermDetailView extends AppCompatActivity {
             public void onClick(View view) {
                 //Show the current term
                 Intent intent = new Intent(TermDetailView.this, CourseListView.class);
-                intent.putExtra("ID",selectedTerm.getTermId());
+                intent.putExtra("TermID", selectedTerm.getTermId());
                 startActivity(intent);
             }
         });
@@ -70,7 +71,7 @@ public class TermDetailView extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    showConfirmDeleteDialog();
+                showConfirmDeleteDialog();
             }
         });
 
@@ -78,14 +79,14 @@ public class TermDetailView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TermDetailView.this, TermCreateView.class);
-                intent.putExtra("ID",selectedTerm.getTermId());
+                intent.putExtra("ID", selectedTerm.getTermId());
                 startActivity(intent);
             }
         });
 
     }
 
-    private void showConfirmDeleteDialog(){
+    private void showConfirmDeleteDialog() {
         // Use the Builder class for convenient dialog construction
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to delete?")
@@ -95,9 +96,9 @@ public class TermDetailView extends AppCompatActivity {
                         //TODO make validation so you cant delete a term that has courses assigned to it
 
                         int result = myDb.deleteDataByID(String.valueOf(selectedTerm.getTermId()));
-                        if (result != -1){
+                        if (result != -1) {
                             Toast.makeText(TermDetailView.this, "Deleted Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Toast.makeText(TermDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
                         }
                         finish();
@@ -114,6 +115,7 @@ public class TermDetailView extends AppCompatActivity {
         dialog.show();
 
     }
+
     /****************************************
      * Methods and Actions that do things  *
      ****************************************/

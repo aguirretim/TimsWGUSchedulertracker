@@ -270,6 +270,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         return db.delete(TermTableName, "ID = ?", new String[]{id});
 
     }
+    public Integer deleteCourseDataByID(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(CourseTableName, "CourseID = ?", new String[]{id});
+
+    }
 
     public Integer deleteDataByTitle(String title) {
         SQLiteDatabase db = this.getWritableDatabase();
