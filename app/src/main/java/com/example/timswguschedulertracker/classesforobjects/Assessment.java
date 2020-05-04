@@ -11,17 +11,19 @@ public class Assessment {
     private String AssessmentTitle;
     private String AssessmentType;
     private String EndDate;
+    private String Detail;
 
     /****************************
      * Constructor for Object.  *
      ****************************/
 
-    public Assessment(int courseId, int assessmentId, String assessmentTitle, String assessmentType, String endDate) {
+    public Assessment(int courseId, int assessmentId, String assessmentTitle, String assessmentType, String endDate, String inDetail) {
         CourseId = courseId;
         AssessmentId = assessmentId;
         AssessmentTitle = assessmentTitle;
         AssessmentType = assessmentType;
         EndDate = endDate;
+        Detail = inDetail;
     }
 
     /************************
@@ -68,7 +70,11 @@ public class Assessment {
         EndDate = endDate;
     }
 
+    public String getDetail() {
+        return Detail;
+    }
 
-
-
+    public void setDetail(String detail) {
+        Detail = detail;
+    }
 }

@@ -1,32 +1,31 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.timswguschedulertracker.R;
+import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.example.timswguschedulertracker.classesforobjects.DBProvider;
 import com.example.timswguschedulertracker.classesforobjects.Term;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
-import com.example.timswguschedulertracker.adapters.TermAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerClickListener {
 
@@ -181,6 +180,10 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
     private void  updateTermList(){
         termList = myDb.getAllDataAsTermArrayList();
         //termAdapter.notifyDataSetChanged();
+        if (termList == null) {
+            termList = new ArrayList<>();
+        }
+
         if (termList != null) {
             termAdapter = new TermAdapter(termList, AllTerms.this);
             termAdapter.setRecyclerClickListener(this);

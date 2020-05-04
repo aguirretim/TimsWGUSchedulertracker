@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.adapters.AssessmentAdapter;
+import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
+import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
     private ArrayList<Assessment> AssessmentList = new ArrayList<Assessment>();
     RecyclerView RecycleListView;
     FloatingActionButton addAssessmentButton;
+    DBOpenHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +41,9 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         RecycleListView.setLayoutManager(new LinearLayoutManager(AssessmentListView.this));
 
         //Test object to display in list.
-        Assessment testAssessment = new Assessment(34, 32, "Final Program Exam", "objective assessment", "2020-06-01");
+        //Assessment testAssessment = new Assessment(34, 32, "Final Program Exam", "objective assessment", "2020-06-01");
 
-        AssessmentList.add(testAssessment);
+        //AssessmentList.add(testAssessment);
 
         /*********************************************
          * Changing screens and views with buttons.  *
@@ -91,4 +94,14 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         startActivity(intent);
     }
 
+
+    @Override
+    protected void onResume() {
+        //TODO this should really be onActivityResult
+        //refresh data in recycler view
+        AssessmentList = null;
+        AssessmentList = new ArrayList<>();
+        //updateTermList();
+        super.onResume();
+    }
 }

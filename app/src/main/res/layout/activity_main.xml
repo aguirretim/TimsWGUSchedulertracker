@@ -10,16 +10,15 @@
 
     <ImageView
         android:id="@+id/titleImageView"
-        android:contentDescription="@string/welcome_image_is_shown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/welcome_image_is_shown"
         android:scaleType="fitStart"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/welcomeText"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText"
         app:srcCompat="@drawable/ic_student_working_at_desk_svgrepo_com"
         tools:ignore="VectorDrawableCompat" />
 
@@ -29,12 +28,10 @@
         android:layout_height="wrap_content"
         android:text="@string/welcome_student_we_are_excited_that_you_ve_chosen_wgu_to_further_your_education_below_you_will_find_your_term_infromation"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.73"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/homeBtnCurrentTerm"

@@ -30,6 +30,7 @@ public class CourseDetailView extends AppCompatActivity {
     private Button delCourseButton;
     private Button notesListButton;
     private Button assessmentListButton;
+    private Button editCourseButton;
     Course curCourse;
     DBOpenHelper myDB;
 
@@ -48,6 +49,7 @@ public class CourseDetailView extends AppCompatActivity {
         delCourseButton = (Button) findViewById(R.id.delCourseButton);
         notesListButton = (Button) findViewById(R.id.notesListButton);
         assessmentListButton = (Button) findViewById(R.id.assessmentListButton);
+        editCourseButton = (Button) findViewById(R.id.editCourseButton);
 
 
         myDB = new DBOpenHelper(this);
@@ -82,6 +84,16 @@ public class CourseDetailView extends AppCompatActivity {
             }
 
         };
+
+        editCourseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CourseDetailView.this, CourseCreateView.class);
+                intent.putExtra("isEdit", "true");
+                intent.putExtra("CourseID", curCourse.getCourseId());
+                startActivity(intent);
+            }
+        });
 
         delCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +138,9 @@ public class CourseDetailView extends AppCompatActivity {
                         } else {
                             Toast.makeText(CourseDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
                         }
+                        Intent dataToSendBack = new Intent();
+                        dataToSendBack.putExtra("updateCourseList", "true");
+                        setResult(RESULT_OK, dataToSendBack);
                         finish();
                     }
                 })
@@ -141,7 +156,20 @@ public class CourseDetailView extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        if (curCourse != null) {
+            curCourse = myDB.getCourseObjectFromID(curCourse.getCourseId());
+            courseTitleLabel.setText(curCourse.getCourseTitle());
+            startDate.setText(curCourse.getStartDate());
+            endDate.setText(curCourse.getEndDate());
+            courseStatus.setText(curCourse.getStatus());
+            courseMentor.setText(curCourse.getCourseMentorNames());
+            courseMentorPhone.setText(curCourse.getCourseMentorPhoneNumber());
+            courseMentorEmail.setText(curCourse.getCourseMentorEmailAddresses());
 
-
+        }
+        super.onResume();
+    }
 }
 

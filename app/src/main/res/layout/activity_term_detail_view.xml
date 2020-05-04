@@ -4,22 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screensandviewscontrollers.TermDetailView"
     android:background="#4CAF50"
-    >
+    tools:context=".screensandviewscontrollers.TermDetailView">
 
     <TextView
         android:id="@+id/termDetailTxtStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/termDetailTxtTermTitle"
         android:layout_toRightOf="@+id/termDetailTxtTermTitle"
         android:text="2020-06-01"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/termDetailLblStartDate"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/termDetailLblStartDate"
         tools:text="2020-06-01" />
 
@@ -31,30 +33,35 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="76dp"
-        android:layout_marginRight="76dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
         android:layout_toEndOf="@+id/termDetailTxtStartDate"
         android:layout_toRightOf="@+id/termDetailTxtStartDate"
         android:text="End Date"
         android:textColor="@android:color/white"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/termDetailLblStartDate"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/termDetailTxtTermTitle"
         tools:text="End Date" />
 
     <TextView
         android:id="@+id/termDetailTxtTermTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
+        android:paddingLeft="8sp"
         android:text="Spring 2021"
+        android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Spring 2021" />
@@ -67,13 +74,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
         android:layout_toEndOf="@+id/termDetailTxtStartDate"
         android:layout_toRightOf="@+id/termDetailTxtStartDate"
         android:text="2020-06-01"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/termDetailLblEndDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/termDetailLblEndDate"
         tools:text="2020-06-01" />
 
@@ -82,35 +92,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
         android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/termDetailTxtTermTitle"
         android:layout_toRightOf="@+id/termDetailTxtTermTitle"
         android:text="Start Date"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/termDetailTxtTermTitle"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/termDetailTxtTermTitle"
         tools:text="Start Date" />
 
     <Button
         android:id="@+id/termDetailBtnCourses"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_height="wrap_content"
         android:text="Courses"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/termDetailBtnEdit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/termDetailTxtEndDate" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/termDetailBtnDelete"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="32dp"
         android:text="Delete Term"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -118,13 +127,19 @@
 
     <Button
         android:id="@+id/termDetailBtnEdit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:text="Edit Term"
         app:layout_constraintBottom_toTopOf="@+id/termDetailBtnDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

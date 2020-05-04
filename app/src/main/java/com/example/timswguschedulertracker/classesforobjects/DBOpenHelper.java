@@ -39,6 +39,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String CourseMentorEmail = "CourseMentorEmail";
     public static final String[] CourseColumns = {CourseID, CourseTitle, CourseStart, CourseEnd, CourseMentor, CourseMentorPhone, CourseMentorEmail};
 
+    //Constants for Assessment table
+    public static final String AssessTableName = "Assessment";
+    public static final String AssessID = "AssessID";
+    public static final String AssessTitle = "AssessTitle";
+    public static final String AssessEnd = "AssessEnd";
+    public static final String AssessDetail = "AssessDetail";
+    public static final String AssessType = "AssessType";
+    public static final String[] AssessColumns = {AssessID, AssessTitle,  AssessEnd, AssessDetail};
+    SQLiteDatabase db;
 
     //Database Constructor
     /* public DBOpenHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -91,6 +100,19 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         );
         db.execSQL(courseTableString + courseTableString2);
 
+        String assessTableString = String.format("CREATE TABLE " + AssessTableName);
+        String assessTableString2 = String.format(" (AssessID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CourseID + ", " +
+                AssessTitle + ", " +
+                AssessEnd + ", " +
+                AssessType + ", " +
+                AssessDetail +
+                ")"
+        );
+
+        String temp = assessTableString + assessTableString2;
+        db.execSQL(assessTableString + assessTableString2);
+
     }
 
     @Override
@@ -99,6 +121,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         //String s1 = String.format("");
         db.execSQL(s);
         db.execSQL("DROP TABLE IF EXISTS " + CourseTableName);
+        db.execSQL("DROP TABLE IF EXISTS " + AssessTableName);
 
 
         onCreate(db);
@@ -153,9 +176,31 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean updateCourseData(String id,
-                                    String pTermID,
-                                    String pCourseID,
+    public boolean insertAssessmentData(String pCourseID,  String pAssessID,
+                                    String pAssessTitle,
+                                    String pAssessEnd, String pAssessType,
+                                    String pAssessDetail
+                                    ) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CourseID, pCourseID);
+        contentValues.put(AssessID, pAssessID);
+        contentValues.put(AssessTitle, pAssessTitle);
+        contentValues.put(AssessEnd, pAssessEnd);
+        contentValues.put(AssessDetail, pAssessDetail);
+        contentValues.put(AssessType, pAssessType);
+
+        long result = db.insert(AssessTableName, null, contentValues);
+
+        if (result == -1)
+            return false;
+        else
+            return true;
+
+    }
+
+    public boolean updateCourseData( String pCourseID,
                                     String pCourseTitle,
                                     String pCourseStart,
                                     String pCourseEnd,
@@ -166,8 +211,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(TermID, pTermID);
-        contentValues.put(CourseID, pCourseID);
+
         contentValues.put(CourseTitle, pCourseTitle);
         contentValues.put(CourseStart, pCourseStart);
         contentValues.put(CourseEnd, pCourseEnd);
@@ -176,7 +220,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(CourseMentorPhone, pCourseMentorPhone);
         contentValues.put(CourseMentorEmail, pCourseMentorEmail);
 
-        int result = db.update(CourseTableName, contentValues, "ID = ?", new String[]{id});
+        int result = db.update(CourseTableName, contentValues, "CourseID = ?", new String[]{pCourseID});
         if (result != -1) {
             return true;
         } else {
@@ -242,6 +286,41 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             return null;
         }
     }
+
+    public ArrayList<Assessment> getAllDataByCourseIDAsAssessmentArrayList(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();   //
+        Cursor query = db.rawQuery("SELECT * FROM " + AssessTableName + " WHERE " + CourseID + " = ?", new String[]{String.valueOf(id)});
+
+        if (query.getCount() != 0) { //this represents the number of rows in the database
+            ArrayList<Assessment> allAssessments = new ArrayList<>();
+            while (query.moveToNext()) {
+
+
+                /* contentValues.put(CourseID, pCourseID);
+                    contentValues.put(AssessID, pAssessID);
+                    contentValues.put(AssessTitle, pAssessTitle);
+                    contentValues.put(AssessEnd, pAssessEnd);
+                    contentValues.put(AssessDetail, pAssessDetail);*/
+
+                int Courseid = Integer.parseInt(query.getString(0));
+                int AssessID = Integer.parseInt(query.getString(1));
+                String title = query.getString(2);
+                String endDate = query.getString(3);
+                String type = query.getString(4);
+                String detail = query.getString(5);
+
+
+               Assessment temp = new Assessment(Courseid, AssessID, title, type, endDate, detail);
+               allAssessments.add(temp);
+            }
+
+            return allAssessments;
+        } else {
+            return null;
+        }
+    }
+
+
 
     //TODO get alldata as array list
 
