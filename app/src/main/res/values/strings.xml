@@ -11,4 +11,11 @@
         <item>Dropped</item>
         <item>Completed</item>
     </string-array>
+
+    <string-array name="AssessmentType">
+        <item>Performance</item>
+        <item>Objective</item>
+    </string-array>
+
+
 </resources>

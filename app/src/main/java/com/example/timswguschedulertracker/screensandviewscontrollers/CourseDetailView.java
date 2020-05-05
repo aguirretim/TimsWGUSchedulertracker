@@ -105,7 +105,16 @@ public class CourseDetailView extends AppCompatActivity {
         });
 
 
-        assessmentListButton.setOnClickListener(listener);
+        assessmentListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(CourseDetailView.this, AssessmentListView.class);
+                intent.putExtra("CourseID", curCourse.getCourseId());
+                intent.putExtra("isEdit", "false");
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -176,16 +176,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertAssessmentData(String pCourseID,  String pAssessID,
-                                    String pAssessTitle,
-                                    String pAssessEnd, String pAssessType,
-                                    String pAssessDetail
-                                    ) {
+    public boolean insertAssessmentData(String pAssessID,
+                                        String pCourseID,
+                                        String pAssessTitle,
+                                        String pAssessEnd,
+                                        String pAssessType,
+                                        String pAssessDetail) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CourseID, pCourseID);
         contentValues.put(AssessID, pAssessID);
+        contentValues.put(CourseID, pCourseID);
         contentValues.put(AssessTitle, pAssessTitle);
         contentValues.put(AssessEnd, pAssessEnd);
         contentValues.put(AssessDetail, pAssessDetail);
@@ -310,7 +311,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 String detail = query.getString(5);
 
 
-               Assessment temp = new Assessment(Courseid, AssessID, title, type, endDate, detail);
+                Assessment temp = new Assessment(AssessID, Courseid, title, type, endDate, detail);
                allAssessments.add(temp);
             }
 

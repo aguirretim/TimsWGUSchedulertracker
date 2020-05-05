@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.adapters.AssessmentAdapter;
-import com.example.timswguschedulertracker.adapters.TermAdapter;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,25 +25,47 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
     private ArrayList<Assessment> AssessmentList = new ArrayList<Assessment>();
     RecyclerView RecycleListView;
     FloatingActionButton addAssessmentButton;
-    DBOpenHelper myDb;
+    DBOpenHelper myDB;
+    int CourseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assessment_list_view);
+
+
+        myDB = new DBOpenHelper(this);
+
         addAssessmentButton = findViewById(R.id.addAssessmentButton);
-        RecycleListView = (RecyclerView) findViewById(R.id.RecycleListView);
+        RecycleListView = (RecyclerView) findViewById(R.id.recyclerAssessmentList);
 
-        AssessmentAdapter = new AssessmentAdapter(AssessmentList, AssessmentListView.this);
-        AssessmentAdapter.setRecyclerClickListener(this);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            CourseID = extras.getInt("CourseID");
+            //access database and populate courseList
+            AssessmentList = myDB.getAllDataByCourseIDAsAssessmentArrayList(CourseID);
 
-        RecycleListView.setAdapter(AssessmentAdapter);
-        RecycleListView.setLayoutManager(new LinearLayoutManager(AssessmentListView.this));
+            if (AssessmentList != null) {
+                AssessmentAdapter = new AssessmentAdapter(AssessmentList, AssessmentListView.this);
+                AssessmentAdapter.setRecyclerClickListener(this);
+                RecycleListView.setAdapter(AssessmentAdapter);
+            } else {
+                Toast.makeText(this, "No assessments for this course in the database", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } else {
+            Toast.makeText(this, "No CourseID was passed to this activity", Toast.LENGTH_SHORT).show();
+        }
+
 
         //Test object to display in list.
         //Assessment testAssessment = new Assessment(34, 32, "Final Program Exam", "objective assessment", "2020-06-01");
 
         //AssessmentList.add(testAssessment);
+
+        RecycleListView.setLayoutManager(new LinearLayoutManager(AssessmentListView.this));
+
 
         /*********************************************
          * Changing screens and views with buttons.  *
@@ -61,17 +83,23 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         };
 
 
-        addAssessmentButton.setOnClickListener(listener);
-
+        addAssessmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AssessmentListView.this, AssessmentCreate.class);
+                // to pass a key intent.putExtra("name",name);
+                intent.putExtra("CourseID", CourseID);
+                intent.putExtra("isEdit", "false");
+                startActivity(intent);
+            }
+        });
 
     }
-
-
-    @Override
-    public void onClickPerformed(int postion) {
-        Log.e("Position clicked", " " + postion);
-        showAssessmentDetailView();
-    }
+        @Override
+        public void onClickPerformed ( int postion){
+            Log.e("Position clicked", " " + postion);
+            showAssessmentDetailView();
+        }
 
     /****************************************
      * Methods and Actions that do things  *
@@ -94,6 +122,16 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         startActivity(intent);
     }
 
+    private void updateAssessmentList() {
+        AssessmentList = myDB.getAllDataByCourseIDAsAssessmentArrayList(CourseID);
+        //termAdapter.notifyDataSetChanged();
+        if (AssessmentList == null) {
+            AssessmentList = new ArrayList<>();
+        }
+        AssessmentAdapter = new AssessmentAdapter(AssessmentList, AssessmentListView.this);
+        AssessmentAdapter.setRecyclerClickListener(this);
+        RecycleListView.setAdapter(AssessmentAdapter);
+    }
 
     @Override
     protected void onResume() {
@@ -101,7 +139,7 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         //refresh data in recycler view
         AssessmentList = null;
         AssessmentList = new ArrayList<>();
-        //updateTermList();
+        updateAssessmentList();
         super.onResume();
     }
 }

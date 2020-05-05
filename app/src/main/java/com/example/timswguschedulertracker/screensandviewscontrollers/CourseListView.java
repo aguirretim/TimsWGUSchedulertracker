@@ -51,7 +51,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
             //access database and populate courseList
             courseList = myDb.getAllDataByTermIDAsCourseArrayList(TermID);
         } else {
-            Toast.makeText(this, "No TermID was passed to this activity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No CourseID was passed to this activity", Toast.LENGTH_SHORT).show();
         }
 
 

@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
+
 import java.util.List;
 
 public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -42,7 +45,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View v = vInflator.inflate(R.layout.term_list_item, parent, false);
+        View v = vInflator.inflate(R.layout.course_list_item, parent, false);
         return new AssessmentAdapter.ViewHolder(v);
     }
 
@@ -76,9 +79,11 @@ public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             AssessmentTitle=(TextView)itemView.findViewById(R.id.courseTitle);
-            courseStart=(TextView)itemView.findViewById(R.id.startDate);
-            EndDate=(TextView)itemView.findViewById(R.id.endDate);
+            courseStart = (TextView) itemView.findViewById(R.id.startDate);
+            EndDate = (TextView) itemView.findViewById(R.id.endDate);
             AssessmentType=(TextView)itemView.findViewById(R.id.courseStatus);
+            TextView startDate = itemView.findViewById(R.id.termDetailTxtStartDate);
+            courseStart.setText("Due Date:");
             itemView.setOnClickListener(this);
         }
 
