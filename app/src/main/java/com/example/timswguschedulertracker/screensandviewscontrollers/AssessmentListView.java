@@ -98,21 +98,17 @@ public class AssessmentListView extends AppCompatActivity implements AssessmentA
         @Override
         public void onClickPerformed ( int postion){
             Log.e("Position clicked", " " + postion);
-            showAssessmentDetailView();
+
+            Intent intent = new Intent(this, AssessmentDetailView.class);
+            intent.putExtra("AssessmentID", AssessmentList.get(postion).getAssessmentId());
+            // to pass a key intent.putExtra("name",name);
+            startActivity(intent);
+
         }
 
     /****************************************
      * Methods and Actions that do things  *
      ****************************************/
-
-    //Method for changing view
-    private void showAssessmentDetailView() {
-        Intent intent = new Intent(this, TermCreateView.class);
-
-        // to pass a key intent.putExtra("name",name);
-        startActivity(intent);
-
-    }
 
     //Method for changing view
     private void showAssessmentAddView() {

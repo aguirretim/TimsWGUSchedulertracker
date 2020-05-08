@@ -356,6 +356,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public Integer deleteAssementDataByID(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(AssessTableName, "AssessID = ?", new String[]{id});
+
+    }
+
     public Integer deleteDataByTitle(String title) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TermTableName, "TermTitle = ?", new String[]{title});
@@ -410,8 +416,26 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             query.close();
             return null;
         }
+    }
 
+    public Assessment getAssessmentObjectFromID(int idIn) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor query = db.query(AssessTableName, null, AssessID + " = ?", new String[]{String.valueOf(idIn)}, null, null, null);
 
+        if (query.moveToNext()) {
+            int Courseid = Integer.parseInt(query.getString(0));
+            int AssessID = Integer.parseInt(query.getString(1));
+            String title = query.getString(2);
+            String endDate = query.getString(3);
+            String type = query.getString(4);
+            String detail = query.getString(5);
+            Assessment temp = new Assessment(AssessID, Courseid, title, type, endDate, detail);
+            query.close();
+            return temp;
+        } else {
+            query.close();
+            return null;
+        }
     }
 
 

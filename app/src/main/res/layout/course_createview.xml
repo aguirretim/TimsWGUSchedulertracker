@@ -120,6 +120,8 @@
             android:id="@+id/StatusSelector"
             android:layout_width="408dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:entries="@array/Status_Names"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"

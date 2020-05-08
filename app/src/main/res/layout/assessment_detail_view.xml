@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4CAF50"
+    android:padding="5dp"
+    tools:context=".screensandviewscontrollers.AssessmentDetailView">
+
+    <TextView
+        android:id="@+id/assessmentTitleLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Performance Assessment: Mobile Application Development - ABM1"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/endDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:text="Goal Date"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentTitleLabel" />
+
+    <TextView
+        android:id="@+id/endDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="02/02/2021 18:29"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/endDateLabel" />
+
+    <TextView
+        android:id="@+id/assessmentTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Assessment Type"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentTitleLabel" />
+
+    <TextView
+        android:id="@+id/assessmentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:text="Performance"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/centerGuideline"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentTypeLabel" />
+
+    <TextView
+        android:id="@+id/assessmentDescriptionLable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assessment Information"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentType" />
+
+
+    <TextView
+        android:id="@+id/assessmentDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="325dp"
+        android:text="As a competent mobile application developer, your understanding of mobile application structure and design will help you to develop applications to meet customer requirements. The following project to develop a student scheduler/student progress tracking application, will help you to apply these skills in a familiar, real-world scenario. This task will allow you to demonstrate your ability to apply the skills learned in the course.    You will develop a multiple-screen mobile application for WGU students to track their terms, courses associated with each term, and assessment(s) associated with each course. The application will allow students to enter, edit, and delete term, course, and assessment data. It should provide summary and detailed views of courses for each term and provide alerts for upcoming performance and objective assessments. This application will use a SQLite database.  "
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentDescriptionLable" />
+
+    <Button
+        android:id="@+id/editAssessmentButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Edit assessment"
+        app:layout_constraintBottom_toTopOf="@id/delAssessmentButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/delAssessmentButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Delete assessment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="201dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

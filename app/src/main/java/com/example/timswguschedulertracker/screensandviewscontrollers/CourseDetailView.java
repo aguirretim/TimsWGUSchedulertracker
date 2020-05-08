@@ -40,7 +40,7 @@ public class CourseDetailView extends AppCompatActivity {
         setContentView(R.layout.course_detail_view);
 
         courseTitleLabel = (TextView) findViewById(R.id.courseTitleLabel);
-        startDate = (TextView) findViewById(R.id.startDate);
+        startDate = (TextView) findViewById(R.id.endDate);
         endDate = (TextView) findViewById(R.id.endDate);
         courseStatus = (TextView) findViewById(R.id.courseStatus);
         courseMentor = (TextView) findViewById(R.id.courseMentor);
