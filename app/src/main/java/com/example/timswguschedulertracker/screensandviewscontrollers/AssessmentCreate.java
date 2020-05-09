@@ -12,7 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.timswguschedulertracker.R;
+import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AssessmentCreate extends AppCompatActivity {
     private TimePicker timePicker;
@@ -23,6 +28,8 @@ public class AssessmentCreate extends AppCompatActivity {
     private EditText edtDetails;
     private boolean isEditAssessment = false;
     DBOpenHelper myDB;
+    Assessment selectedAssessment;
+    int AssessmentID;
     int CourseID;
 
     @Override
@@ -41,15 +48,45 @@ public class AssessmentCreate extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            AssessmentID = extras.getInt("AssessmentID");
             CourseID = extras.getInt("CourseID");
             String isEdit = extras.getString("isEdit");
             isEditAssessment = Boolean.parseBoolean(isEdit);
 
             //implement if editing
+            if (isEditAssessment) {
+                //fill in all the data for the course
 
+                selectedAssessment = myDB.getAssessmentObjectFromID(AssessmentID);
+                txtAssessmentTitle.setText(selectedAssessment.getAssessmentTitle());
+
+
+                StatusSelector.setSelection(getStatusIDXFromString(selectedAssessment.getAssessmentType()));
+                edtDetails.setText(selectedAssessment.getDetail());
+
+
+                SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+                SimpleDateFormat parser2 = new SimpleDateFormat("HH");
+                SimpleDateFormat parser3 = new SimpleDateFormat("mm");
+                try {
+                    Date yourDate = parser.parse(selectedAssessment.getEndDate());
+                    Date yourtime = parser2.parse(selectedAssessment.getEndDate());
+                    Date yourtime2 = parser2.parse(selectedAssessment.getEndDate());
+                    //getYear returns the year minus 1900
+                    //Todo get the time from the date and parse it to set the time picker
+
+
+                    dueDatePickerCourse.init(yourDate.getYear() + 1900, yourDate.getMonth(), yourDate.getDate(), null);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
 
-
+        /*********************************************
+         * Changing screens and views with buttons.  *
+         *********************************************/
         btnSaveAssessment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,13 +109,14 @@ public class AssessmentCreate extends AppCompatActivity {
 
                 if (isEditAssessment) {
                     //update the database
-                   /* if (myDb.updateCourseData(String.valueOf(curCourse.getCourseId()), courseTitleTextEdit.getText().toString(), startDateValue, endDateValue,status,mentorName,mentorPhone,mentorEmail)) {
-                        Toast.makeText(this, "Updated Course with ID: " + curCourse.getTermID(), Toast.LENGTH_SHORT).show();
+                    if (myDB.updateAssessmentData(AssessmentID + "", CourseID + "",
+                            assessmentCreatedTitle, endDateValue, status, details)) {
+                          Toast.makeText(AssessmentCreate.this, "Updated Assessment with ID: " + AssessmentID, Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AssessmentCreate.this, "Could not update edited Assesment", Toast.LENGTH_SHORT).show();
                     }
-*/
+
 
                     //this uses the OnResume of the previous activity to update database items
 
@@ -94,5 +132,24 @@ public class AssessmentCreate extends AppCompatActivity {
                 }
             }
         });
+
+
+    }
+
+    /****************************************
+     * Methods and Actions that do things  *
+     ****************************************/
+
+    private int getStatusIDXFromString(String status) {
+        String statusItems[] = getResources().getStringArray(R.array.AssessmentType);
+
+        for (int i = 0; i < statusItems.length; i++) {
+            if (statusItems[i].equals(status)) {
+                return i;
+            }
+        }
+        Toast.makeText(this, "Error: Type saved in Assement does not match status options. First options returned by default", Toast.LENGTH_LONG).show();
+        return 0;
+
     }
 }

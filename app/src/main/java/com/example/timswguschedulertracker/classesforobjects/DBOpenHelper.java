@@ -229,6 +229,29 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean updateAssessmentData( String pAssessID,
+                                         String pCourseID,
+                                         String pAssessTitle,
+                                         String pAssessEnd,
+                                         String pAssessType,
+                                         String pAssessDetail) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(AssessID, pAssessID);
+        contentValues.put(CourseID, pCourseID);
+        contentValues.put(AssessTitle, pAssessTitle);
+        contentValues.put(AssessEnd, pAssessEnd);
+        contentValues.put(AssessDetail, pAssessDetail);
+        contentValues.put(AssessType, pAssessType);
+
+        int result = db.update(AssessTableName, contentValues, "AssessID = ?", new String[]{pAssessID});
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TermTableName, null);

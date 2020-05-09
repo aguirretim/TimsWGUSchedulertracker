@@ -29,6 +29,7 @@ public class AssessmentDetailView extends AppCompatActivity {
     private Button delAssessmentButton;
     Assessment curAssessment;
     DBOpenHelper myDB;
+    int AssessID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class AssessmentDetailView extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int AssessID = extras.getInt("AssessmentID");
+             AssessID = extras.getInt("AssessmentID");
             curAssessment = myDB.getAssessmentObjectFromID(AssessID);
             assessmentTitleLabel.setText(curAssessment.getAssessmentTitle());
             endDate.setText(curAssessment.getEndDate());
@@ -58,9 +59,20 @@ public class AssessmentDetailView extends AppCompatActivity {
         delAssessmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Show the Screen you want to show
+                //Show the Screen you want to showthe mentality and mind set is correct fffffff
                 showConfirmDeleteDialog();
 
+            }
+        });
+
+        editAssessmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AssessmentDetailView.this, AssessmentCreate.class);
+                intent.putExtra("isEdit", "true");
+                intent.putExtra("AssessmentID", curAssessment.getAssessmentId());
+                intent.putExtra("CourseID", curAssessment.getCourseId());
+                startActivity(intent);
             }
         });
     }
@@ -80,6 +92,7 @@ public class AssessmentDetailView extends AppCompatActivity {
                         } else {
                             Toast.makeText(AssessmentDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
                         }
+
                         Intent dataToSendBack = new Intent();
                         dataToSendBack.putExtra("updateCourseList", "true");
                         setResult(RESULT_OK, dataToSendBack);
@@ -92,10 +105,24 @@ public class AssessmentDetailView extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+
         // Create the AlertDialog object and return
         AlertDialog dialog = builder.create();
         dialog.show();
 
+    }
+
+    @Override
+    protected void onResume() {
+        if (curAssessment != null) {
+            curAssessment = myDB.getAssessmentObjectFromID(AssessID);
+            assessmentTitleLabel.setText(curAssessment.getAssessmentTitle());
+            endDate.setText(curAssessment.getEndDate());
+            assessmentType.setText(curAssessment.getAssessmentType());
+            assessmentDetail.setText(curAssessment.getDetail());
+
+        }
+        super.onResume();
     }
 }
 

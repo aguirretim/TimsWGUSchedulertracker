@@ -105,6 +105,8 @@ public class CourseDetailView extends AppCompatActivity {
         });
 
 
+
+
         assessmentListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
