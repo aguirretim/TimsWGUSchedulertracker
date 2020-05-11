@@ -1,6 +1,6 @@
 package com.example.timswguschedulertracker.classesforobjects;
 
-public class Notes {
+public class Note {
 
     /**************************************
      * initialized Variables for Object.  *
@@ -15,7 +15,7 @@ public class Notes {
      * Constructor for Object.  *
      ****************************/
 
-    public Notes(int courseId, int notesId, String notesTitle, String notesText) {
+    public Note(int courseId, int notesId, String notesTitle, String notesText) {
         CourseId = courseId;
         NotesId = notesId;
         NotesTitle = notesTitle;

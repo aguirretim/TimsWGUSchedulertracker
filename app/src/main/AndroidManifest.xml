@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screensandviewscontrollers.AssessmentDetailView"></activity>
+        <activity android:name=".screensandviewscontrollers.NoteDetailView"></activity>
+        <activity android:name=".screensandviewscontrollers.NoteCreateView" />
+        <activity android:name=".screensandviewscontrollers.NoteListView" />
+        <activity android:name=".screensandviewscontrollers.AssessmentDetailView" />
         <activity android:name=".screensandviewscontrollers.AssessmentCreate" />
         <activity android:name=".screensandviewscontrollers.CourseCreateView" />
         <activity android:name=".screensandviewscontrollers.AssessmentListView" />

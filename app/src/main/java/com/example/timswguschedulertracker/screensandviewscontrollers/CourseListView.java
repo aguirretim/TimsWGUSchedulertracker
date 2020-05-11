@@ -51,16 +51,21 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
             //access database and populate courseList
             courseList = myDb.getAllDataByTermIDAsCourseArrayList(TermID);
         } else {
-            Toast.makeText(this, "No CourseID was passed to this activity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "No CourseID was passed to this activity",
+                    Toast.LENGTH_SHORT).show();
         }
 
 
         if (courseList != null) {
-            CourseAdapter = new CourseAdapter(courseList, CourseListView.this);
+            CourseAdapter = new CourseAdapter(courseList,
+                    CourseListView.this);
             CourseAdapter.setRecyclerClickListener(this);
             RecycleListView.setAdapter(CourseAdapter);
         } else {
-            Toast.makeText(this, "No courses for this term in the database", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "No courses for this term in the database",
+                    Toast.LENGTH_SHORT).show();
         }
 
         RecycleListView.setLayoutManager(new LinearLayoutManager(CourseListView.this));

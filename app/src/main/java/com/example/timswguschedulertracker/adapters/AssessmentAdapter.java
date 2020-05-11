@@ -79,7 +79,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             AssessmentTitle=(TextView)itemView.findViewById(R.id.courseTitle);
-            courseStart = (TextView) itemView.findViewById(R.id.endDate);
+            courseStart = (TextView) itemView.findViewById(R.id.startDate);
             EndDate = (TextView) itemView.findViewById(R.id.endDate);
             AssessmentType=(TextView)itemView.findViewById(R.id.courseStatus);
             TextView startDate = itemView.findViewById(R.id.termDetailTxtStartDate);

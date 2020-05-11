@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    tools:background="@color/colorPrimary"
+    >
+
+    <TextView
+        android:id="@+id/noteTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="-7dp"
+        android:layout_marginRight="12dp"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Summary of the Class defining structures" />
+
+    <TextView
+        android:id="@+id/noteDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="25sp"
+        android:layout_below="@id/noteTitle"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="Resilience – It allows you to put into specification how payments will be made—in installments, at a future date, or on demand.Brief and Highly Detached – You do not need to have a promissory note notarized, and there is also no need to record it to be legit. You can use a promissory note as an unsecured loan and make your collateral ready to secure a bank or certain types of loans.Convertible – You can draw potential investors’ attention through the use of a convertible promissory note. Prospective investors may be interested in your company and think that you have enough cash flow for reimbursement." />
+
+</RelativeLayout>

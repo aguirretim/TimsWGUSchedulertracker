@@ -47,6 +47,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String AssessDetail = "AssessDetail";
     public static final String AssessType = "AssessType";
     public static final String[] AssessColumns = {AssessID, AssessTitle,  AssessEnd, AssessDetail};
+
+    //Constants for Assessment table
+    public static final String NoteTableName = "Note";
+    public static final String NoteID = "NoteID";
+    public static final String NoteTitle = "NoteTitle";
+    public static final String NoteDetail = "NoteDetail";
+    public static final String[] NoteColumns = {NoteID, NoteTitle, NoteDetail};
+
     SQLiteDatabase db;
 
     //Database Constructor
@@ -113,6 +121,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         String temp = assessTableString + assessTableString2;
         db.execSQL(assessTableString + assessTableString2);
 
+        String noteTableString = String.format("CREATE TABLE " + NoteTableName);
+        String noteTableString2 = String.format(" (NoteID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                CourseID + ", " +
+                NoteTitle + ", " +
+                NoteDetail +
+                ")"
+        );
+
+        String temp4 = noteTableString + noteTableString2;
+        db.execSQL(temp4);
+
     }
 
     @Override
@@ -122,6 +141,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL(s);
         db.execSQL("DROP TABLE IF EXISTS " + CourseTableName);
         db.execSQL("DROP TABLE IF EXISTS " + AssessTableName);
+        db.execSQL("DROP TABLE IF EXISTS " + NoteTableName);
 
 
         onCreate(db);
@@ -193,6 +213,28 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         contentValues.put(AssessType, pAssessType);
 
         long result = db.insert(AssessTableName, null, contentValues);
+
+        if (result == -1)
+            return false;
+        else
+            return true;
+
+    }
+
+    public boolean insertNoteData(String pNoteID,
+                                        String pCourseID,
+                                        String pNoteTitle,
+                                        String pNoteDetail) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NoteID, pNoteID);
+        contentValues.put(CourseID, pCourseID);
+        contentValues.put(NoteTitle, pNoteTitle);
+        contentValues.put(NoteDetail, pNoteDetail);
+
+
+        long result = db.insert(NoteTableName, null, contentValues);
 
         if (result == -1)
             return false;
@@ -306,6 +348,30 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             }
 
             return allCourses;
+        } else {
+            return null;
+        }
+    }
+
+
+    public ArrayList<Note> getAllNotesByCourseIDAsNoteArrayList(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();   //
+        Cursor query = db.rawQuery("SELECT * FROM " + NoteTableName + " WHERE " + CourseID + " = ?", new String[]{String.valueOf(id)});
+
+        if (query.getCount() != 0) { //this represents the number of rows in the database
+            ArrayList<Note> allNotes = new ArrayList<>();
+            while (query.moveToNext()) {
+
+                int Courseid = Integer.parseInt(query.getString(0));
+                int NoteID = Integer.parseInt(query.getString(1));
+                String NoteTitle = query.getString(2);
+                String NoteDetail = query.getString(3);
+
+                Note temp = new Note(Courseid, NoteID, NoteTitle, NoteDetail);
+                allNotes.add(temp);
+            }
+
+            return allNotes;
         } else {
             return null;
         }

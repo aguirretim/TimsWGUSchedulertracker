@@ -58,6 +58,7 @@ public class CourseDetailView extends AppCompatActivity {
         assessmentListButton = findViewById(R.id.assessmentListButton);
 
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
             int courseId = extras.getInt("CourseID");
             curCourse = myDB.getCourseObjectFromID(courseId);
@@ -114,6 +115,16 @@ public class CourseDetailView extends AppCompatActivity {
                 Intent intent = new Intent(CourseDetailView.this, AssessmentListView.class);
                 intent.putExtra("CourseID", curCourse.getCourseId());
                 intent.putExtra("isEdit", "false");
+                startActivity(intent);
+            }
+        });
+
+        notesListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show the current term
+                Intent intent = new Intent(CourseDetailView.this, NoteListView.class);
+                 intent.putExtra("CourseID", curCourse.getCourseId());
                 startActivity(intent);
             }
         });
