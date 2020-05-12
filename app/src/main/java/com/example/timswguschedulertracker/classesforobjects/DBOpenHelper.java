@@ -221,14 +221,15 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertNoteData(String pNoteID,
+    public boolean insertNoteData(
                                         String pCourseID,
                                         String pNoteTitle,
                                         String pNoteDetail) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(NoteID, pNoteID);
+
+
         contentValues.put(CourseID, pCourseID);
         contentValues.put(NoteTitle, pNoteTitle);
         contentValues.put(NoteDetail, pNoteDetail);
@@ -240,7 +241,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
-
     }
 
     public boolean updateCourseData( String pCourseID,
@@ -293,6 +293,29 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public boolean updateNoteData(String pNoteID,
+                                  String pCourseID,
+                                  String pNoteTitle,
+                                  String pNoteDetail
+    ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NoteID, pNoteID);
+        contentValues.put(CourseID, pCourseID);
+        contentValues.put(NoteTitle, pNoteTitle);
+        contentValues.put(NoteDetail, pNoteDetail);
+
+
+        int result = db.update(NoteTableName, contentValues, "NoteID = ?", new String[]{pNoteID});
+        if (result != -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -367,7 +390,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                 String NoteTitle = query.getString(2);
                 String NoteDetail = query.getString(3);
 
-                Note temp = new Note(Courseid, NoteID, NoteTitle, NoteDetail);
+                Note temp = new Note(NoteID, Courseid, NoteTitle, NoteDetail);
                 allNotes.add(temp);
             }
 
@@ -527,5 +550,22 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Note getNoteObjectFromID(int idIn) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor query = db.query(NoteTableName, null, NoteID + " = ?", new String[]{String.valueOf(idIn)}, null, null, null);
 
+        if (query.moveToNext()) {
+            int NoteId = Integer.parseInt(query.getString(0));
+            int CourseId = Integer.parseInt(query.getString(1));
+            String title = query.getString(2);
+            String noteDetail = query.getString(3);
+
+            Note temp = new Note(NoteId, CourseId, title, noteDetail);
+            query.close();
+            return temp;
+        } else {
+            query.close();
+            return null;
+        }
+    }
 }

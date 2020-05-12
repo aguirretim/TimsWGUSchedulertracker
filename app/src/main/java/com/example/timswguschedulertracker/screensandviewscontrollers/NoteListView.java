@@ -52,7 +52,6 @@ public class NoteListView extends AppCompatActivity implements NotesAdapter.Recy
         if (extras != null) {
             CourseID = extras.getInt("CourseID");
             //access database and populate courseList
-            int test = 0;
             noteList = myDb.getAllNotesByCourseIDAsNoteArrayList(CourseID);
         } else {
             Toast.makeText(this,
@@ -92,8 +91,9 @@ public class NoteListView extends AppCompatActivity implements NotesAdapter.Recy
     @Override
     public void onClickPerformed(int postion) {
         Log.e("Position clicked", " " + postion);
+        Note noteInList = noteList.get(postion);
         Intent intent = new Intent(this, NoteDetailView.class);
-        intent.putExtra("NoteID", noteList.get(postion).getNotesId());
+        intent.putExtra("NoteID", noteInList.getNotesId());
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
     }
@@ -113,17 +113,13 @@ public class NoteListView extends AppCompatActivity implements NotesAdapter.Recy
 
                 //extract information from the data Intent (this is passed into this function as the third argument)
                 Bundle extras = data.getExtras();
-               /* String title = extras.getString("title");
-                String startDate = extras.getString(NoteCreateView.EXTRA_COURSE_STARTDATE);
-                String endDate = extras.getString(CourseCreateView.EXTRA_COURSE_ENDDATE);
-                String status = extras.getString(CourseCreateView.EXTRA_COURSE_STATUS);
-                String mentor = extras.getString(CourseCreateView.EXTRA_COURSE_MENTORNAME);
-                String mentorPhone = extras.getString(CourseCreateView.EXTRA_COURSE_PHONE);
-                String mentorEmail = extras.getString(CourseCreateView.EXTRA_COURSE_EMAIL);
+                String title = extras.getString(NoteCreateView.EXTRA_NOTE_TITLE);
+                String noteDetails = extras.getString(NoteCreateView.EXTRA_NOTE_DETAIL);
 
-                String update = extras.getString("updateCourseList");
+
+
                 //update the courselist from DB
-                //refresh data in recycler view*/
+                //refresh data in recycler view
                 noteList = null;
                 noteList = new ArrayList<>();
                 updateNoteList();
@@ -133,11 +129,14 @@ public class NoteListView extends AppCompatActivity implements NotesAdapter.Recy
                 //note newNote = new Note(TermID, 000, title, startDate);
                 //TODO save item to database
                 // Inserts the data from the Course obj to the database
-                //if (myDb.insertNoteData(null + "", CourseID, title, startDate,)) {
-                //      updateNoteList();
-                //  } else {
-                //     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
-                // }
+                if (myDb.insertNoteData(
+                        CourseID + "",
+                        title,
+                        noteDetails)) {
+                    updateNoteList();
+                } else {
+                    Toast.makeText(this, "Could not insert new Note into database", Toast.LENGTH_SHORT).show();
+                }
 
 
             }

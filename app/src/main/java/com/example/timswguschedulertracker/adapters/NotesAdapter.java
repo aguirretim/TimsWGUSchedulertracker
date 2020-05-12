@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.timswguschedulertracker.R;
-import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.Note;
-import com.example.timswguschedulertracker.screensandviewscontrollers.NoteListView;
 
 import java.util.List;
 
@@ -70,14 +70,8 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return vlist.size();
     }
 
-    public void setRecyclerClickListener(NoteListView noteListView) {
 
-        this.recyclerClickListener = recyclerClickListener;
-    }
 
-    public void setRecyclerClickListener(NotesAdapter.RecyclerClickListener recyclerClickListener) {
-        this.recyclerClickListener = recyclerClickListener;
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -98,6 +92,12 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         }
 
+    }
+
+    public void setRecyclerClickListener(NotesAdapter.RecyclerClickListener
+                                                 recyclerClickListener) {
+
+        this.recyclerClickListener = recyclerClickListener;
     }
 
     public interface RecyclerClickListener{
