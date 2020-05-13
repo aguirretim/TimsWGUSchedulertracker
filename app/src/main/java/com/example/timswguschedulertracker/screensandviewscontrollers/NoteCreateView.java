@@ -47,6 +47,23 @@ public class NoteCreateView extends AppCompatActivity {
 
         myDb = new DBOpenHelper(this);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            NoteID = extras.getInt("NoteID");
+            CourseID = extras.getInt("CourseID");
+            String isEdit = extras.getString("isEdit");
+            isEditNote = Boolean.parseBoolean(isEdit);
+            int test = 1;
+            if (isEditNote) {
+                //fill in all the data for the course
+
+                selectedNote = myDb.getNoteObjectFromID(NoteID);
+                CourseID = selectedNote.getCourseId();
+                noteTitleTextEdit.setText(selectedNote.getNotesTitle());
+                edtNoteDetail.setText(selectedNote.getNotesText());
+            }
+
+        }
 
         /*********************************************
          * Changing screens and views with buttons.  *

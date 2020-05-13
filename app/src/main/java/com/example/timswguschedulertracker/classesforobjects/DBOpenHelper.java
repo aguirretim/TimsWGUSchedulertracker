@@ -474,6 +474,12 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     }
 
+    public Integer deleteNoteDataByID(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(NoteTableName, "NoteID = ?", new String[]{id});
+
+    }
+
     public Integer deleteDataByTitle(String title) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TermTableName, "TermTitle = ?", new String[]{title});
@@ -555,12 +561,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         Cursor query = db.query(NoteTableName, null, NoteID + " = ?", new String[]{String.valueOf(idIn)}, null, null, null);
 
         if (query.moveToNext()) {
-            int NoteId = Integer.parseInt(query.getString(0));
             int CourseId = Integer.parseInt(query.getString(1));
-            String title = query.getString(2);
-            String noteDetail = query.getString(3);
+            int NoteId = Integer.parseInt(query.getString(0));
+            String Notetitle = query.getString(2);
+            String NoteDetail = query.getString(3);
 
-            Note temp = new Note(NoteId, CourseId, title, noteDetail);
+            Note temp = new Note(CourseId, NoteId, Notetitle, NoteDetail);
+
             query.close();
             return temp;
         } else {
