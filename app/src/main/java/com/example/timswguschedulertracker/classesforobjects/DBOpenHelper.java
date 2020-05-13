@@ -434,9 +434,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     }
 
 
-
-    //TODO get alldata as array list
-
     public boolean updateData(String id, String pTermTitle, String pTermStart, String pTermEnd) {//,String pTermCurrent,String pTermCreateDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

@@ -124,11 +124,7 @@ public class NoteListView extends AppCompatActivity implements NotesAdapter.Recy
                 noteList = new ArrayList<>();
                 updateNoteList();
 
-                //add new term
-                //TODO figure out where the user will choose whether or not this is the current term
-                //note newNote = new Note(TermID, 000, title, startDate);
-                //TODO save item to database
-                // Inserts the data from the Course obj to the database
+
                 if (myDb.insertNoteData(
                         CourseID + "",
                         title,

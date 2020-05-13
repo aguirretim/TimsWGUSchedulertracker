@@ -144,11 +144,9 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
                 courseList = new ArrayList<>();
                 updateCourseList();
 
-                //add new term
-                //TODO figure out where the user will choose whether or not this is the current term
+
                 Course newCourse = new Course(TermID, 000, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail);
-                //TODO save item to database
-                // Inserts the data from the Course obj to the database
+
                 if (myDb.insertCourseData(TermID + "", null, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail)) {
                     updateCourseList();
                 } else {

@@ -90,7 +90,6 @@ public class NoteDetailView extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        //TODO make validation so you cant delete a term that has courses assigned to it
 
                         int result = myDB.deleteNoteDataByID(String.valueOf(curNote.getNotesId()));
                         if (result != -1) {

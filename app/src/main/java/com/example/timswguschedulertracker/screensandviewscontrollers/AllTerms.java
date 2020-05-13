@@ -49,7 +49,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
 
         myDb = new DBOpenHelper(this);
 
-        // TODO read from database and populate termlist
+
         termList = myDb.getAllDataAsTermArrayList();
         if (termList != null){
             termAdapter = new TermAdapter(termList, AllTerms.this);
@@ -165,7 +165,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
                 //add new term
                 //TODO figure out where the user will choose whether or not this is the current term
                 Term newTerm = new Term(000, title, startDate,endDate, false);
-                //TODO save item to database
+
                 String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
                 // Inserts the data from the term obj to the database
                 if (myDb.insertData(title,startDate,endDate,"false",currentDate)){

@@ -139,7 +139,7 @@ public class TermCreateView extends AppCompatActivity {
             dataToSendBack.putExtra(EXTRA_TERM_STARTDATE, startDateValue);
             dataToSendBack.putExtra(EXTRA_TERM_ENDDATE, endDateValue);
 
-            //todo check that dates are valid
+            //TODO check that dates are valid
             boolean validDates = true;
 
             if (validDates) {

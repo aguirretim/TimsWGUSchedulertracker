@@ -152,7 +152,7 @@ public class CourseDetailView extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        //TODO make validation so you cant delete a term that has courses assigned to it
+
 
                         int result = myDB.deleteCourseDataByID(String.valueOf(curCourse.getCourseId()));
                         if (result != -1) {
