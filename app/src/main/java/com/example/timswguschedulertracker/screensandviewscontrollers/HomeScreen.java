@@ -1,14 +1,14 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.timswguschedulertracker.R;
 
@@ -22,6 +22,7 @@ public class HomeScreen extends AppCompatActivity {
     private ImageView titleImageView;
     private Button btnCurrentTerm;
     private Button btnAllTerms;
+    private Button homeBtnProgress;
     private ConstraintLayout constraintlayout;
 
     @Override
@@ -34,11 +35,15 @@ public class HomeScreen extends AppCompatActivity {
         //currentTermButton = findViewById(R.id.currentTermButton);
         btnCurrentTerm = findViewById(R.id.homeBtnCurrentTerm);
         btnAllTerms = findViewById(R.id.homeBtnViewAllTerms);
+        homeBtnProgress = findViewById(R.id.homeBtnProgress);
         constraintlayout = findViewById(R.id.constraintlayout);
 
-    /*********************************************
+
+        /*********************************************
      * Changing screens and views with buttons.  *
      *********************************************/
+        //TODO Term Summary button with term view.
+
 
         btnCurrentTerm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +63,14 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
+        homeBtnProgress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show all terms
+                Intent intent = new Intent(HomeScreen.this, ProgressViewer.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
