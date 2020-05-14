@@ -5,19 +5,19 @@
     android:id="@+id/constraintlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
+    android:padding="5dp"
     tools:context=".screensandviewscontrollers.HomeScreen">
 
     <ImageView
         android:id="@+id/titleImageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/welcome_image_is_shown"
         android:scaleType="fitStart"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/homeBtnCurrentTerm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeText"
         app:srcCompat="@drawable/ic_student_working_at_desk_svgrepo_com"
         tools:ignore="VectorDrawableCompat" />
@@ -35,21 +35,32 @@
 
     <Button
         android:id="@+id/homeBtnCurrentTerm"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/current_term"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/homeBtnViewAllTerms"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.68"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/homeBtnViewAllTerms"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/view_all_terms"
+        app:layout_constraintBottom_toTopOf="@+id/homeBtnProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/homeBtnProgress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="View Progress"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
