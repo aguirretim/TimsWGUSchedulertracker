@@ -80,6 +80,8 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
             public void onClick(View view) {
                 //Show the Screen you want to show
                 Intent intent = new Intent(CourseListView.this, CourseCreateView.class);
+                intent.putExtra("TermID", TermID);
+                intent.putExtra("isEdit", "false");
                 startActivityForResult(intent, REQ_CODE_ADDCOURSE);
             }
         });
@@ -144,14 +146,14 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
                 courseList = new ArrayList<>();
                 updateCourseList();
 
-
-                Course newCourse = new Course(TermID, 000, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail);
+                //TODO old, we were saving to database on return, now we save on the course create view, delete this code once that works
+                /*Course newCourse = new Course(TermID, 000, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail);
 
                 if (myDb.insertCourseData(TermID + "", null, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail)) {
                     updateCourseList();
                 } else {
                     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         }
     }

@@ -40,7 +40,7 @@ public class CourseDetailView extends AppCompatActivity {
         setContentView(R.layout.course_detail_view);
 
         courseTitleLabel = (TextView) findViewById(R.id.courseTitleLabel);
-        startDate = (TextView) findViewById(R.id.endDate);
+        startDate = (TextView) findViewById(R.id.startDate);
         endDate = (TextView) findViewById(R.id.endDate);
         courseStatus = (TextView) findViewById(R.id.courseStatus);
         courseMentor = (TextView) findViewById(R.id.courseMentor);
@@ -92,6 +92,7 @@ public class CourseDetailView extends AppCompatActivity {
                 Intent intent = new Intent(CourseDetailView.this, CourseCreateView.class);
                 intent.putExtra("isEdit", "true");
                 intent.putExtra("CourseID", curCourse.getCourseId());
+                intent.putExtra("TermID", curCourse.getTermId());
                 startActivity(intent);
             }
         });

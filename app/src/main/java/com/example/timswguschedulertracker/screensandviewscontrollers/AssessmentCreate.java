@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
+import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 
 import java.text.ParseException;
@@ -29,8 +30,10 @@ public class AssessmentCreate extends AppCompatActivity {
     private boolean isEditAssessment = false;
     DBOpenHelper myDB;
     Assessment selectedAssessment;
+    Course currentCourse;
     int AssessmentID;
     int CourseID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,13 @@ public class AssessmentCreate extends AppCompatActivity {
         if (extras != null) {
             AssessmentID = extras.getInt("AssessmentID");
             CourseID = extras.getInt("CourseID");
+            currentCourse = myDB.getCourseObjectFromID(CourseID);
             String isEdit = extras.getString("isEdit");
             isEditAssessment = Boolean.parseBoolean(isEdit);
 
+            //TODO loading data from 12hour format with AM/PM
+            SimpleDateFormat dateParseWithTime = new SimpleDateFormat("MM/dd/yyyy HH:mm"); //24hr
+            SimpleDateFormat dateParse = new SimpleDateFormat("MM/dd/yyyy");
             //implement if editing
             if (isEditAssessment) {
                 //fill in all the data for the course
@@ -65,18 +72,28 @@ public class AssessmentCreate extends AppCompatActivity {
                 edtDetails.setText(selectedAssessment.getDetail());
 
 
-                SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
-                SimpleDateFormat parser2 = new SimpleDateFormat("HH");
-                SimpleDateFormat parser3 = new SimpleDateFormat("mm");
                 try {
-                    Date yourDate = parser.parse(selectedAssessment.getEndDate());
-                    Date yourtime = parser2.parse(selectedAssessment.getEndDate());
-                    Date yourtime2 = parser2.parse(selectedAssessment.getEndDate());
+                    //Date yourDate = parser.parse(selectedAssessment.getEndDate());
+                    Date dateWithTime = dateParseWithTime.parse(selectedAssessment.getEndDate());
+
                     //getYear returns the year minus 1900
                     //Todo get the time from the date and parse it to set the time picker
 
 
-                    dueDatePickerCourse.init(yourDate.getYear() + 1900, yourDate.getMonth(), yourDate.getDate(), null);
+                    dueDatePickerCourse.init(dateWithTime.getYear() + 1900, dateWithTime.getMonth(), dateWithTime.getDate(), null);
+                    //set time picker
+                    timePicker.setCurrentHour(dateWithTime.getHours());
+                    timePicker.setCurrentMinute(dateWithTime.getMinutes());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+
+                //set the due date picker to be the end date of the current course
+                try {
+                    Date dueDate = dateParse.parse(currentCourse.getEndDate());
+                    dueDatePickerCourse.init(dueDate.getYear() + 1900, dueDate.getMonth(), dueDate.getDate(), null);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -101,34 +118,51 @@ public class AssessmentCreate extends AppCompatActivity {
                 String details = edtDetails.getText().toString();
                 int hour = timePicker.getCurrentHour();
                 int min = timePicker.getCurrentMinute();
-                endDateValue = endDateValue + " " + String.format("%02d", hour) + ":" + String.format("%02d", min);
+                String dueDateWithHour = endDateValue + " " + String.format("%02d", hour) + ":" + String.format("%02d", min);
+                //MM/dd/yyyy HH:mm
 
 
                 //myDb.insertCourseData(courseCreatedTitle,startDateValue,endDateValue,status,mentorName,mentorPhone,mentorEmail);
+                //TODO check valid dates, shouldnt be before course start or after course end
+                SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+                boolean validDates = false;
+                try {
+                    Date courseStartDate = parser.parse(currentCourse.getStartDate());
+                    Date courseEndDate = parser.parse(currentCourse.getEndDate());
 
-
-                if (isEditAssessment) {
-                    //update the database
-                    if (myDB.updateAssessmentData(AssessmentID + "", CourseID + "",
-                            assessmentCreatedTitle, endDateValue, status, details)) {
-                          Toast.makeText(AssessmentCreate.this, "Updated Assessment with ID: " + AssessmentID, Toast.LENGTH_SHORT).show();
-                        finish();
+                    Date assessmentDueDate = parser.parse(endDateValue);
+                    if (assessmentDueDate.after(courseEndDate) || assessmentDueDate.before(courseStartDate)) {
+                        Toast.makeText(AssessmentCreate.this, "Error: assessment due date must be between: " + currentCourse.getStartDate() + " - " + currentCourse.getEndDate(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(AssessmentCreate.this, "Could not update edited Assesment", Toast.LENGTH_SHORT).show();
+                        validDates = true;
                     }
 
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
-                    //this uses the OnResume of the previous activity to update database items
 
-                } else {
-
-                    // Inserts the data from the Course obj to the database
-                    if (myDB.insertAssessmentData(null, CourseID + "", assessmentCreatedTitle, endDateValue, status, details)) {
-                        finish();
+                //TODO 24hr to 12hr
+                if (validDates) {
+                    //save the item based on if it is an edit or create
+                    if (isEditAssessment) {
+                        //update the database
+                        if (myDB.updateAssessmentData(AssessmentID + "", CourseID + "",
+                                assessmentCreatedTitle, dueDateWithHour, status, details)) {
+                            Toast.makeText(AssessmentCreate.this, "Updated Assessment with ID: " + AssessmentID, Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(AssessmentCreate.this, "Could not update edited Assesment", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(AssessmentCreate.this, "Could not insert new assessment into database", Toast.LENGTH_SHORT).show();
-                    }
+                        //if saving a new assessment                    // Inserts the data from the Course obj to the database
+                        if (myDB.insertAssessmentData(null, CourseID + "", assessmentCreatedTitle, dueDateWithHour, status, details)) {
+                            finish();
+                        } else {
+                            Toast.makeText(AssessmentCreate.this, "Could not insert new assessment into database", Toast.LENGTH_SHORT).show();
+                        }
 
+                    }
                 }
             }
         });

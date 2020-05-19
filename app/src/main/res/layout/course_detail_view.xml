@@ -9,7 +9,7 @@
     tools:context=".screensandviewscontrollers.CourseDetailView">
 
     <TextView
-        android:id="@+id/endDate"
+        android:id="@+id/startDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -70,7 +70,7 @@
         tools:text="2020-06-01" />
 
     <TextView
-        android:id="@+id/endDateLabel"
+        android:id="@+id/StartDateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -97,7 +97,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endDate"
+        app:layout_constraintTop_toBottomOf="@+id/startDate"
         tools:text="Status" />
 
     <TextView

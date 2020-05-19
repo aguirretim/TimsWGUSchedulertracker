@@ -190,6 +190,8 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
             RecycleListView.setAdapter(termAdapter);
         }
     }
+
+
     @Override
     protected void onResume() {
         //TODO this should really be onActivityResult

@@ -142,6 +142,8 @@ public class TermCreateView extends AppCompatActivity {
             //TODO check that dates are valid
             boolean validDates = true;
 
+
+
             if (validDates) {
                 setResult(RESULT_OK, dataToSendBack);
                 finish();

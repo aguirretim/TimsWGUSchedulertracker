@@ -15,6 +15,11 @@ import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AssessmentDetailView extends AppCompatActivity {
 
     /*************************************
@@ -51,7 +56,25 @@ public class AssessmentDetailView extends AppCompatActivity {
              AssessID = extras.getInt("AssessmentID");
             curAssessment = myDB.getAssessmentObjectFromID(AssessID);
             assessmentTitleLabel.setText(curAssessment.getAssessmentTitle());
-            endDate.setText(curAssessment.getEndDate());
+            //convert the saved 24hr format to 12 hr
+            //Date/time pattern of input date
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            //Date/time pattern of desired output date
+            DateFormat outputformat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+            Date date = null;
+            String output = null;
+            try {
+                //Conversion of input String to date
+                date = df.parse(curAssessment.getEndDate());
+                //old date format to new date format
+                output = outputformat.format(date);
+                endDate.setText(output);
+            } catch (ParseException pe) {
+                Toast.makeText(this, "could not parse 24 hour date in Assessment Detail onCreate", Toast.LENGTH_SHORT).show();
+            }
+
+
+
             assessmentType.setText(curAssessment.getAssessmentType());
             assessmentDetail.setText(curAssessment.getDetail());
         }
@@ -117,7 +140,21 @@ public class AssessmentDetailView extends AppCompatActivity {
         if (curAssessment != null) {
             curAssessment = myDB.getAssessmentObjectFromID(AssessID);
             assessmentTitleLabel.setText(curAssessment.getAssessmentTitle());
-            endDate.setText(curAssessment.getEndDate());
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+            //Date/time pattern of desired output date
+            DateFormat outputformat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+            Date date = null;
+            String output = null;
+            try {
+                //Conversion of input String to date
+                date = df.parse(curAssessment.getEndDate());
+                //old date format to new date format
+                output = outputformat.format(date);
+                endDate.setText(output);
+            } catch (ParseException pe) {
+                Toast.makeText(this, "could not parse 24 hour date in Assessment Detail onCreate", Toast.LENGTH_SHORT).show();
+            }
+
             assessmentType.setText(curAssessment.getAssessmentType());
             assessmentDetail.setText(curAssessment.getDetail());
 

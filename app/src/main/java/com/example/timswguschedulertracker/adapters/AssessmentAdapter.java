@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -55,7 +60,21 @@ public class AssessmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         AssessmentAdapter.ViewHolder ViewHolder=(AssessmentAdapter.ViewHolder)holder;
         vAssessment = vlist.get(position);
         ViewHolder.AssessmentTitle.setText(vAssessment.getAssessmentTitle());
-        ViewHolder.EndDate.setText(vAssessment.getEndDate());
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        //Date/time pattern of desired output date
+        DateFormat outputformat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        Date date = null;
+        String output = null;
+        try {
+            //Conversion of input String to date
+            date = df.parse(vAssessment.getEndDate());
+            //old date format to new date format
+            output = outputformat.format(date);
+            ViewHolder.EndDate.setText(output);
+        } catch (ParseException pe) {
+            Toast.makeText(vContext, "could not parse 24 hour date in Assessment Detail in AssessmentAdapter BindViewHolder", Toast.LENGTH_SHORT).show();
+        }
+
         ViewHolder.AssessmentType.setText(vAssessment.getAssessmentType());
     }
 
