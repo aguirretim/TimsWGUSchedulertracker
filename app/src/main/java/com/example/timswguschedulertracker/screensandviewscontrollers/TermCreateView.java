@@ -1,6 +1,5 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,17 +16,18 @@ import com.example.timswguschedulertracker.classesforobjects.Term;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class TermCreateView extends AppCompatActivity {
 
+    public static String EXTRA_TERM_TITLE = "title";
+    public static String EXTRA_TERM_STARTDATE = "termStartDate";
+    public static String EXTRA_TERM_ENDDATE = "termEndDate";
     EditText termTitleTextEdit;
     DatePicker startDatePicker, endDatePicker;
     Button saveButton;
     DBOpenHelper myDb;
-    public static String EXTRA_TERM_TITLE = "title";
-    public static String EXTRA_TERM_STARTDATE = "termStartDate";
-    public static String EXTRA_TERM_ENDDATE = "termEndDate";
     boolean isEditTerm = false;
     Term selectedTerm;
 
@@ -113,7 +113,31 @@ public class TermCreateView extends AppCompatActivity {
         //Term newTerm = new Term(000, termCreatedTitle, startDateValue,endDateValue, false);
 
         //Checks te if term is an edited term create term
-        if (isEditTerm) {
+
+
+        SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
+        boolean validDates = false;
+
+
+
+        try {
+            Date startTerm = parser.parse(startDateValue);
+            Date endTerm = parser.parse(endDateValue);
+
+            //compare dates
+            if (startTerm.after(endTerm)) {
+                Toast.makeText(this, "Error: Term start date is before term End  date", Toast.LENGTH_SHORT).show();
+                validDates = false;
+            } else {
+                validDates = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Dates not valid because parser couldnt parse date string", Toast.LENGTH_SHORT).show();
+        }
+
+
+       /* if (isEditTerm) {
             //update the database
             if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
                     termTitleTextEdit.getText().toString(),
@@ -141,21 +165,44 @@ public class TermCreateView extends AppCompatActivity {
 
             //TODO check that dates are valid
             boolean validDates = true;
-
-
-
+            String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+*/
             if (validDates) {
-                setResult(RESULT_OK, dataToSendBack);
+                if (isEditTerm) {
+
+                    if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
+                            termCreatedTitle,
+                            startDateValue,
+                            endDateValue
+                    )) {
+                        Toast.makeText(this, "Updated Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    setResult(RESULT_OK/*dataToSendBack*/);
                 finish();
             } else {
-                Toast.makeText(this, "End Date must be after Start Date", Toast.LENGTH_LONG).show();
+                    String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
+
+                    if (myDb.insertData(termCreatedTitle, startDateValue, endDateValue, "false", currentDate)) {
+                        Toast.makeText(TermCreateView.this, "Created Term " + termCreatedTitle,
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
             }
 
-            Toast.makeText(TermCreateView.this, termCreatedTitle,
-                    Toast.LENGTH_LONG).show();
+
+
+
 
         }
 
 
     }
-}
+

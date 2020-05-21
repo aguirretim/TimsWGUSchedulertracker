@@ -12,8 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.timswguschedulertracker.R;
+import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 import com.example.timswguschedulertracker.classesforobjects.Term;
+
+import java.util.ArrayList;
 
 public class TermDetailView extends AppCompatActivity {
 
@@ -23,6 +26,7 @@ public class TermDetailView extends AppCompatActivity {
     Term selectedTerm = null;
     //int id;
     int SelectedID;
+    boolean hasCourses = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,36 +88,62 @@ public class TermDetailView extends AppCompatActivity {
             }
         });
 
+
     }
+
 
     private void showConfirmDeleteDialog() {
         // Use the Builder class for convenient dialog construction
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        SelectedID = SelectedID;
+        ArrayList<Course> courseArray = new ArrayList<Course>();
+        courseArray = myDb.getAllDataByTermIDAsCourseArrayList(SelectedID);
+        //termAdapter.notifyDataSetChanged();
+        if (courseArray == null) {
+            courseArray = new ArrayList<>();
+        }
 
-                        //TODO make validation so you cant delete a term that has courses assigned to it
 
-                        int result = myDb.deleteDataByID(String.valueOf(selectedTerm.getTermId()));
-                        if (result != -1) {
-                            Toast.makeText(TermDetailView.this, "Deleted Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(TermDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
+        int asdfsdf = 1;
+        if (courseArray.size() == 0 || courseArray.isEmpty() || courseArray == null) {
+            hasCourses = false;
+        } else {
+            hasCourses = true;
+        }
+        if (hasCourses == false) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("Are you sure you want to delete?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            //TODO make validation so you cant delete a term that has courses assigned to it
+
+
+                            int result = myDb.deleteDataByID(String.valueOf(selectedTerm.getTermId()));
+                            if (result != -1) {
+                                Toast.makeText(TermDetailView.this, "Deleted Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(TermDetailView.this, "Error, couldn't delete term", Toast.LENGTH_SHORT).show();
+                            }
+
+                            finish();
                         }
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.dismiss();
-                    }
-                });
-        // Create the AlertDialog object and return
-        AlertDialog dialog = builder.create();
-        dialog.show();
+                    })
 
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                            dialog.dismiss();
+                        }
+                    });
+
+            // Create the AlertDialog object and return
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else {
+            Toast.makeText(TermDetailView.this, "Term cannot be deleted with courses associated with it", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /****************************************

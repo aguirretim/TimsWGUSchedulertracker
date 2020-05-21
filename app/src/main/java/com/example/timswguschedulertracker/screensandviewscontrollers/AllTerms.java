@@ -21,11 +21,8 @@ import com.example.timswguschedulertracker.classesforobjects.DBProvider;
 import com.example.timswguschedulertracker.classesforobjects.Term;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerClickListener {
 
@@ -150,7 +147,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
         super.onActivityResult(requestCode, resultCode, data);
 
         //check to see which activity the data is coming back from
-        if (requestCode == REQ_CODE_ADDTERM){
+        /*if (requestCode == REQ_CODE_ADDTERM){
 
             //check to see what the result type is
             if (resultCode == RESULT_OK){
@@ -174,7 +171,7 @@ public class AllTerms extends AppCompatActivity implements TermAdapter.RecyclerC
                     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+        }*/
     }
 
     private void  updateTermList(){
