@@ -102,8 +102,6 @@ public class TermDetailView extends AppCompatActivity {
             courseArray = new ArrayList<>();
         }
 
-
-        int asdfsdf = 1;
         if (courseArray.size() == 0 || courseArray.isEmpty() || courseArray == null) {
             hasCourses = false;
         } else {

@@ -15,6 +15,7 @@ import com.example.timswguschedulertracker.classesforobjects.Term;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -30,6 +31,8 @@ public class TermCreateView extends AppCompatActivity {
     DBOpenHelper myDb;
     boolean isEditTerm = false;
     Term selectedTerm;
+    private ArrayList<Term> termList = new ArrayList<Term>();
+    boolean validDates = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,77 +102,69 @@ public class TermCreateView extends AppCompatActivity {
 
 
     public void createTerm() {
-        //String localDate = LocalDate.now().toString();
-
         String termCreatedTitle = termTitleTextEdit.getText().toString();
-        //termTitleTextEdit.getText().toString();
-
         String startDateValue = String.format("%02d", startDatePicker.getMonth() + 1) + "/" +
                 String.format("%02d", startDatePicker.getDayOfMonth()) + "/" + startDatePicker.getYear();
         String endDateValue = String.format("%02d", endDatePicker.getMonth() + 1) + "/" +
                 String.format("%02d", endDatePicker.getDayOfMonth()) + "/" + endDatePicker.getYear();
 
-
-        //Term newTerm = new Term(000, termCreatedTitle, startDateValue,endDateValue, false);
-
-        //Checks te if term is an edited term create term
-
+        String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
 
         SimpleDateFormat parser = new SimpleDateFormat("MM/dd/yyyy");
-        boolean validDates = false;
 
+        Date startTerm = null;
+        Date endTerm = null;
+        Date currentDateDate = null;
 
-
+        //The TRY CATCH Parses String dates to date values for calculations
         try {
-            Date startTerm = parser.parse(startDateValue);
-            Date endTerm = parser.parse(endDateValue);
-
-            //compare dates
-            if (startTerm.after(endTerm)) {
-                Toast.makeText(this, "Error: Term start date is before term End  date", Toast.LENGTH_SHORT).show();
-                validDates = false;
-            } else {
-                validDates = true;
-            }
+            startTerm = parser.parse(startDateValue);
+            endTerm = parser.parse(endDateValue);
+            currentDateDate = parser.parse(currentDate);
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Dates not valid because parser couldnt parse date string", Toast.LENGTH_SHORT).show();
         }
 
 
-       /* if (isEditTerm) {
-            //update the database
-            if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
-                    termTitleTextEdit.getText().toString(),
-                    startDateValue, endDateValue)) {
-                Toast.makeText(this,
-                        "Updated Term with ID: " +
-                                selectedTerm.getTermId(),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
-            }
-            finish();
+        termList = myDb.getAllDataAsTermArrayList();
 
-            //this uses the OnResume of the previous activity to update database items
-
+        //compare dates
+        if (startTerm.after(endTerm)) {
+            Toast.makeText(this, "Error: Term start date is before term End  date", Toast.LENGTH_SHORT).show();
+            validDates = false;
         } else {
+            validDates = true;
+        }
 
-            //this sends the data back to the activity that start this activity, From there we save to the database and reload the screen
+        for (Term term : termList) {
 
-            Intent dataToSendBack = new Intent();
+            String startDateLValue = term.getStartDate();
+            String endDateLValue = term.getEndDate();
+            Date startDateLValueDate = null;
+            Date endDateLValueDate = null;
 
-            dataToSendBack.putExtra("title", termCreatedTitle);
-            dataToSendBack.putExtra(EXTRA_TERM_STARTDATE, startDateValue);
-            dataToSendBack.putExtra(EXTRA_TERM_ENDDATE, endDateValue);
+            //The TRY CATCH Parses String dates to date values for calculations
+            try {
+                startDateLValueDate = parser.parse(startDateLValue);
+                endDateLValueDate = parser.parse(endDateLValue);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-            //TODO check that dates are valid
-            boolean validDates = true;
-            String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
-*/
-            if (validDates) {
-                if (isEditTerm) {
+            if ((startTerm.after(startDateLValueDate) &&
+                    startTerm.before(endDateLValueDate) &&
+                    startTerm.equals(startDateLValueDate)) || (
+                    endTerm.after(startDateLValueDate) &&
+                            endTerm.before(endDateLValueDate))) {
+                Toast.makeText(this, "Error: Term dates are in the range of existing term: " + term.getTermTitle() + " with Start Date " + startDateLValue + " and End Date " + endDateLValue, Toast.LENGTH_SHORT).show();
+                validDates = false;
+            }
 
+        }
+
+        if (validDates) {
+            if (isEditTerm) {
+                if (validDates) {
                     if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
                             termCreatedTitle,
                             startDateValue,
@@ -179,30 +174,22 @@ public class TermCreateView extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
                     }
-
-
-                    setResult(RESULT_OK/*dataToSendBack*/);
-                finish();
-            } else {
-                    String currentDate = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
-
-                    if (myDb.insertData(termCreatedTitle, startDateValue, endDateValue, "false", currentDate)) {
-                        Toast.makeText(TermCreateView.this, "Created Term " + termCreatedTitle,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
-                    }
-
+                    setResult(RESULT_OK);
+                    finish();
                 }
-
+            } else {
+                if (myDb.insertData(termCreatedTitle, startDateValue, endDateValue, "false", currentDate)) {
+                    Toast.makeText(TermCreateView.this, "Created Term " + termCreatedTitle,
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
+                }
             }
-
-
-
-
-
         }
-
-
     }
+}
+
+
+
 
