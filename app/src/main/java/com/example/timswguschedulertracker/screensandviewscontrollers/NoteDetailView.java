@@ -25,6 +25,8 @@ public class NoteDetailView extends AppCompatActivity {
     private TextView noteDetail;
     private Button editNoteButton;
     private Button delNoteButton;
+    private Button shareNoteButton;
+    Intent shareIntent;
     Note curNote;
     DBOpenHelper myDB;
 
@@ -42,6 +44,7 @@ public class NoteDetailView extends AppCompatActivity {
         noteDetail = (TextView) findViewById(R.id.noteDetail);
         editNoteButton = (Button) findViewById(R.id.editNoteButton);
         delNoteButton = (Button) findViewById(R.id.delNoteButton);
+        shareNoteButton = findViewById(R.id.ShareNoteButton);
 
         myDB = new DBOpenHelper(this);
 
@@ -57,6 +60,18 @@ public class NoteDetailView extends AppCompatActivity {
         /*********************************************
          * Changing screens and views with buttons.  *
          *********************************************/
+
+        shareNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Show the Screen you want to show
+                shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/pain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, curNote.getNotesTitle());
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, curNote.getNotesText());
+                startActivity(shareIntent.createChooser(shareIntent, "Share via"));
+            }
+        });
 
         delNoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
