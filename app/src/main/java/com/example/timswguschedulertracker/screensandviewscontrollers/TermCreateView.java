@@ -32,7 +32,8 @@ public class TermCreateView extends AppCompatActivity {
     boolean isEditTerm = false;
     Term selectedTerm;
     private ArrayList<Term> termList = new ArrayList<Term>();
-    boolean validDates = false;
+    boolean validLocalDates = false;
+    boolean validGlobalDates = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,16 +89,6 @@ public class TermCreateView extends AppCompatActivity {
 
         });
 
-        /*
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(RESULT_CANCEL);
-                finish();
-            }
-        });
-         */
-
     }
 
 
@@ -128,12 +119,12 @@ public class TermCreateView extends AppCompatActivity {
 
         termList = myDb.getAllDataAsTermArrayList();
 
-        //compare dates
+        //compare local dates make sure start is before end
         if (startTerm.after(endTerm)) {
-            Toast.makeText(this, "Error: Term start date is before term End  date", Toast.LENGTH_SHORT).show();
-            validDates = false;
+            Toast.makeText(this, "Error: Term start date is before term End date", Toast.LENGTH_SHORT).show();
+            validLocalDates = false;
         } else {
-            validDates = true;
+            validLocalDates = true;
         }
 
         for (Term term : termList) {
@@ -151,32 +142,45 @@ public class TermCreateView extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if ((startTerm.after(startDateLValueDate) &&
-                    startTerm.before(endDateLValueDate) &&
-                    startTerm.equals(startDateLValueDate)) || (
-                    endTerm.after(startDateLValueDate) &&
-                            endTerm.before(endDateLValueDate))) {
-                Toast.makeText(this, "Error: Term dates are in the range of existing term: " + term.getTermTitle() + " with Start Date " + startDateLValue + " and End Date " + endDateLValue, Toast.LENGTH_SHORT).show();
-                validDates = false;
+            //startTerm is the term im trying to create
+            //startDateLValueDate is the date of the term Im checking against in the datase
+            //Here we are defining when the dates are NOT VALID
+            //if current term start Date is in the range of another term, curTerm Strt = anyTermStart, curTermStart = anyTerm End
+            //if current term end Date is in the range of another term, curTerm End = anyTermEnd, curTermEnd = anyTerm End
+            if (isEditTerm && term.getTermId() == selectedTerm.getTermId()) {
+
+                validGlobalDates = true;
+
+            } else if ((startTerm.after(startDateLValueDate) && startTerm.before(endDateLValueDate))
+                    || startTerm.equals(startDateLValueDate)
+                    || (endTerm.after(startDateLValueDate) && endTerm.before(endDateLValueDate))
+                    || endTerm.equals(endDateLValueDate)) {
+                Toast.makeText(this, "Error: Term dates are in the range of existing term: " + term.getTermTitle() + " with Start Date " + startDateLValue + " and End Date " + endDateLValue, Toast.LENGTH_LONG).show();
+                validGlobalDates = false;
+                break;
+            } else {
+                validGlobalDates = true;
             }
 
         }
 
-        if (validDates) {
+        if (validLocalDates && validGlobalDates) {
+
+            //make sure the current term dates do not fall within another terms dates
+
             if (isEditTerm) {
-                if (validDates) {
-                    if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
-                            termCreatedTitle,
-                            startDateValue,
-                            endDateValue
-                    )) {
-                        Toast.makeText(this, "Updated Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
-                    }
-                    setResult(RESULT_OK);
-                    finish();
+                if (myDb.updateData(String.valueOf(selectedTerm.getTermId()),
+                        termCreatedTitle,
+                        startDateValue,
+                        endDateValue
+                )) {
+                    Toast.makeText(this, "Updated Term with ID: " + selectedTerm.getTermId(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Could not update edited term", Toast.LENGTH_SHORT).show();
                 }
+                setResult(RESULT_OK);
+                finish();
+
             } else {
                 if (myDb.insertData(termCreatedTitle, startDateValue, endDateValue, "false", currentDate)) {
                     Toast.makeText(TermCreateView.this, "Created Term " + termCreatedTitle,

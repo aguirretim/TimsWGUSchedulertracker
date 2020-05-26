@@ -1,5 +1,11 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +18,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.timswguschedulertracker.R;
+import com.example.timswguschedulertracker.classesforobjects.AlarmReceiver;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
 import com.example.timswguschedulertracker.classesforobjects.Course;
 import com.example.timswguschedulertracker.classesforobjects.DBOpenHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class AssessmentCreate extends AppCompatActivity {
     private TimePicker timePicker;
@@ -142,7 +151,7 @@ public class AssessmentCreate extends AppCompatActivity {
                 }
 
 
-                //TODO 24hr to 12hr
+                //We save the date in 24hr format but when we show it in any textview we reformat to 12 hour
                 if (validDates) {
                     //save the item based on if it is an edit or create
                     if (isEditAssessment) {
@@ -150,6 +159,7 @@ public class AssessmentCreate extends AppCompatActivity {
                         if (myDB.updateAssessmentData(AssessmentID + "", CourseID + "",
                                 assessmentCreatedTitle, dueDateWithHour, status, details)) {
                             Toast.makeText(AssessmentCreate.this, "Updated Assessment with ID: " + AssessmentID, Toast.LENGTH_SHORT).show();
+                            createAlarmForThisAssesment(assessmentCreatedTitle, dueDateWithHour);
                             finish();
                         } else {
                             Toast.makeText(AssessmentCreate.this, "Could not update edited Assesment", Toast.LENGTH_SHORT).show();
@@ -157,6 +167,7 @@ public class AssessmentCreate extends AppCompatActivity {
                     } else {
                         //if saving a new assessment                    // Inserts the data from the Course obj to the database
                         if (myDB.insertAssessmentData(null, CourseID + "", assessmentCreatedTitle, dueDateWithHour, status, details)) {
+                            createAlarmForThisAssesment(assessmentCreatedTitle, dueDateWithHour);
                             finish();
                         } else {
                             Toast.makeText(AssessmentCreate.this, "Could not insert new assessment into database", Toast.LENGTH_SHORT).show();
@@ -166,6 +177,64 @@ public class AssessmentCreate extends AppCompatActivity {
                 }
             }
         });
+
+
+    }
+
+    private void createAlarmForThisAssesment(String assessmentCreatedTitle, String dueDateWithHour) {
+        //If the device is on API 26 or newer we have to create a notification channel in order to show a notification
+        //with our alarm
+        //Build Code Oreo is API 26
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            CharSequence name = "ScheduleTracker";
+            String description = "Channel for ScheduleTracker";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("ScheduleTrackerChannelID", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        //MM/dd/yyyy HH:mm   this is the format of dueDateWithHour
+        //String date = "5/25/2020 12:58";
+        //dueDateWithHour = "5/25/2020 2:07";
+        //We need to use a pendingIntent because technically the intent for the alarm is pending. We dont want the intent to
+        //fire until the alarm actually goes off. We want to pass some data to the notificaiton for the alarm
+        //so we have to put that into the intent for our AlarmReceiver
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.putExtra("asg", assessmentCreatedTitle); //add in assignment title
+        intent.putExtra("date", dueDateWithHour); //add in the due date with the hour
+        //this pendingIntent will fire when the alarm time happens, and its going to trigger the AlarmReceiver class
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this.getApplicationContext(), 0, intent, 0); //280192, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        //Now actually setup the date/time you want the alarm to go off
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH);
+        try {
+            //set the calendar time based on the string dueDateWithHour
+            cal.setTime(sdf.parse(dueDateWithHour));
+
+            //get the alarm manager
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            //actually sets the alarm, all alarm times are set in milliseconds
+            alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+
+
+            //SIDE NOTE: alarms are in milliseconds, if you want an alarm to go off in 5 minutes
+            //get the current time convert to milliseconds  60000 * numMinutes
+
+            //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),1000*60, pendingIntent);
+
+            Toast.makeText(this, "Alarm will vibrate at " + dueDateWithHour,
+                    Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "couldnt parse date", Toast.LENGTH_SHORT).show();
+        }
 
 
     }

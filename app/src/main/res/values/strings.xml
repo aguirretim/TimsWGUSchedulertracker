@@ -3,7 +3,10 @@
     <string name="welcome_student_we_are_excited_that_you_ve_chosen_wgu_to_further_your_education_below_you_will_find_your_term_infromation">Welcome Student! We are excited that you’ve chosen WGU to further your education! Below you will find your Term infromation.</string>
     <string name="current_term">Current Term</string>
     <string name="view_all_terms">View All Terms</string>
-    <string name="welcome_image_is_shown">Welcome Image is shown</string>
+    <string name="channel_name">assesmentChannel</string>
+    <string name="channel_description">assementAlertInfo</string>
+    <string name="welcome_image_is_shown">Highlighted photo focused for student</string>
+
 
     <string-array name="Status_Names">
         <item>Plan To Take</item>

@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/prgViewCourseLable" />
 
     <TextView
-        android:id="@+id/prgViewCoursePlannedCountLable"
+        android:id="@+id/txtPlannedInProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/prgViewCourseStatusLable" />
 
     <TextView
-        android:id="@+id/prgViewCoursePlannedCountLable2"
+        android:id="@+id/txtCompletedCourses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@+id/prgViewCourseStatusLable2" />
 
     <TextView
-        android:id="@+id/prgViewCoursePlannedCountLable3"
+        android:id="@+id/txtDroppedCourses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

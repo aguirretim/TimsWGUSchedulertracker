@@ -376,6 +376,33 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<Course> getAllCoursesAsArrayList() {
+        SQLiteDatabase db = this.getWritableDatabase();   //
+        //Cursor query = db.rawQuery("SELECT * FROM " + CourseTableName + " WHERE " + TermID + " = ?", new String[]{String.valueOf(id)});
+        Cursor query = db.rawQuery("select * from " + CourseTableName, null);
+        if (query.getCount() != 0) { //this represents the number of rows in the database
+            ArrayList<Course> allCourses = new ArrayList<>();
+            while (query.moveToNext()) {
+
+                int Courseid = Integer.parseInt(query.getString(0));
+                int Termid = Integer.parseInt(query.getString(1));
+                String title = query.getString(2);
+                String startDate = query.getString(3);
+                String endDate = query.getString(4);
+                String courseStatus = query.getString(5);
+                String Mentor = query.getString(6);
+                String MentorPhone = query.getString(7);
+                String MentorEmail = query.getString(8);
+                Course temp = new Course(Termid, Courseid, title, startDate, endDate, courseStatus, Mentor, MentorPhone, MentorEmail);
+                allCourses.add(temp);
+            }
+
+            return allCourses;
+        } else {
+            return null;
+        }
+    }
+
 
     public ArrayList<Note> getAllNotesByCourseIDAsNoteArrayList(int id) {
         SQLiteDatabase db = this.getWritableDatabase();   //

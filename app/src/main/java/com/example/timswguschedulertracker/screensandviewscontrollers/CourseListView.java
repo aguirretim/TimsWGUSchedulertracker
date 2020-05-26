@@ -140,20 +140,11 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
                 String mentorEmail = extras.getString(CourseCreateView.EXTRA_COURSE_EMAIL);
 
                 String update = extras.getString("updateCourseList");
-                //update the courselist from DB
-                //refresh data in recycler view
+
                 courseList = null;
                 courseList = new ArrayList<>();
                 updateCourseList();
 
-                //TODO old, we were saving to database on return, now we save on the course create view, delete this code once that works
-                /*Course newCourse = new Course(TermID, 000, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail);
-
-                if (myDb.insertCourseData(TermID + "", null, title, startDate, endDate, status, mentor, mentorPhone, mentorEmail)) {
-                    updateCourseList();
-                } else {
-                    Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();
-                }*/
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.example.timswguschedulertracker.screensandviewscontrollers;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.timswguschedulertracker.R;
 import com.example.timswguschedulertracker.classesforobjects.Assessment;
@@ -134,6 +137,7 @@ public class AssessmentDetailView extends AppCompatActivity {
         dialog.show();
 
     }
+
 
     @Override
     protected void onResume() {
