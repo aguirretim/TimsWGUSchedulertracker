@@ -62,7 +62,7 @@ public class HomeScreen extends AppCompatActivity {
         btnCurrentTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                updateTermList();
                 if (termList == null) {
                     termList = new ArrayList<>();
                 }
@@ -160,6 +160,14 @@ public class HomeScreen extends AppCompatActivity {
         Intent intent = new Intent(this, AllTerms.class);
         // to pass a key intent.putExtra("name",name);
         startActivity(intent);
+    }
+
+    private void updateTermList() {
+        termList = myDb.getAllDataAsTermArrayList();
+        //termAdapter.notifyDataSetChanged();
+        if (termList == null) {
+            termList = new ArrayList<>();
+        }
     }
 
 }
