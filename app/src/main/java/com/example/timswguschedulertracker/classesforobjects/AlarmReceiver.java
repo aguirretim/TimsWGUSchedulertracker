@@ -1,7 +1,5 @@
 package com.example.timswguschedulertracker.classesforobjects;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +7,10 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.widget.Toast;
 
-import com.example.timswguschedulertracker.R;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import static android.content.Context.ALARM_SERVICE;
+import com.example.timswguschedulertracker.R;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override

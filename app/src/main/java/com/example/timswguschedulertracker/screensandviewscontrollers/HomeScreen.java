@@ -63,8 +63,9 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                termList = null;
-                termList = new ArrayList<>();
+                if (termList == null) {
+                    termList = new ArrayList<>();
+                }
 
                 if (termList.size() > 0) {
 
