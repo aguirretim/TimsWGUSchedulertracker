@@ -205,7 +205,7 @@ public class CourseCreateView extends AppCompatActivity {
             }
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Dates not valid because parser couldnt parse date string", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Dates not valid because parser could not parse date string", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -251,7 +251,7 @@ public class CourseCreateView extends AppCompatActivity {
                     //send back okay result, this tells the previous activity to refresh the course list
                     setResult(RESULT_OK);
                 finish();
-                    Toast.makeText(CourseCreateView.this, "Created course " + courseCreatedTitle,
+                    Toast.makeText(this, "Created course " + courseCreatedTitle,
                             Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(this, "Could not insert new term into database", Toast.LENGTH_SHORT).show();

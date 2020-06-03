@@ -82,7 +82,7 @@ public class CourseListView extends AppCompatActivity implements CourseAdapter.R
                 Intent intent = new Intent(CourseListView.this, CourseCreateView.class);
                 intent.putExtra("TermID", TermID);
                 intent.putExtra("isEdit", "false");
-                startActivityForResult(intent, REQ_CODE_ADDCOURSE);
+                startActivity(intent);
             }
         });
     }

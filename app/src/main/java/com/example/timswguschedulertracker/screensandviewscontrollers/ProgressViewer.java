@@ -43,7 +43,7 @@ public class ProgressViewer extends AppCompatActivity {
         txtDropped = (TextView) findViewById(R.id.txtDroppedCourses);
         txtCourseProgress = (TextView) findViewById(R.id.prgViewCourseProgress);
         prgViewUpcomingCourses = (TextView) findViewById(R.id.prgViewUpcomingCourses);
-        prgViewUpcomingAssessmentAlrts = (TextView) findViewById(R.id.prgViewUpcomingAssessmentAlrts);
+        //prgViewUpcomingAssessmentAlrts = (TextView) findViewById(R.id.prgViewUpcomingAssessmentAlrts);
 
         myDB = new DBOpenHelper(this);
 
@@ -69,10 +69,13 @@ public class ProgressViewer extends AppCompatActivity {
 
             if (c.getStatus().equals(statusArray[0]) || c.getStatus().equals(statusArray[1])) {
                 //plan to take or in progress
+                plannedInProgress++;
                 roundplannedInProgress++;
             } else if (c.getStatus().equals(statusArray[2])) {
+                dropped++;
                 rounddropped++;
             } else if (c.getStatus().equals(statusArray[3])) {
+                completed++;
                 roundcompleted++;
             }
 
@@ -139,11 +142,6 @@ public class ProgressViewer extends AppCompatActivity {
                     currentDateDate.equals(startDateValueDate) ||
                     currentDateDate.equals(endDateValueDate)) {
 
-//                welcomeText.setText("Hello, I hope you are enjoying your current term " + term.getTermTitle() + " Please feel free to contact student services if you have any issues.");
-//                Intent intent = new Intent(HomeScreen.this, TermDetailView.class);
-//                intent.putExtra("ID", term.getTermId());
-//                //pass the Term id to the detail
-//                startActivity(intent);
                 return term.getTermId();
             }
         }

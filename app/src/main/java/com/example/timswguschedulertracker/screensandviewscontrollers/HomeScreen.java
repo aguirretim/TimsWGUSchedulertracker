@@ -63,6 +63,9 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                termList = null;
+                termList = new ArrayList<>();
+
                 if (termList.size() > 0) {
 
                     //if todays date is not in the range of any terms in our database this function will return -1

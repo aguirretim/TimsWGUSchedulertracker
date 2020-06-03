@@ -127,41 +127,48 @@ public class TermCreateView extends AppCompatActivity {
             validLocalDates = true;
         }
 
-        for (Term term : termList) {
+        if (termList == null) {
+            validGlobalDates = true;
+        }
+            else{
 
-            String startDateLValue = term.getStartDate();
-            String endDateLValue = term.getEndDate();
-            Date startDateLValueDate = null;
-            Date endDateLValueDate = null;
 
-            //The TRY CATCH Parses String dates to date values for calculations
-            try {
-                startDateLValueDate = parser.parse(startDateLValue);
-                endDateLValueDate = parser.parse(endDateLValue);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            for (Term term : termList) {
+
+                String startDateLValue = term.getStartDate();
+                String endDateLValue = term.getEndDate();
+                Date startDateLValueDate = null;
+                Date endDateLValueDate = null;
+
+                //The TRY CATCH Parses String dates to date values for calculations
+                try {
+                    startDateLValueDate = parser.parse(startDateLValue);
+                    endDateLValueDate = parser.parse(endDateLValue);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                //startTerm is the term im trying to create
+                //startDateLValueDate is the date of the term Im checking against in the datase
+                //Here we are defining when the dates are NOT VALID
+                //if current term start Date is in the range of another term, curTerm Strt = anyTermStart, curTermStart = anyTerm End
+                //if current term end Date is in the range of another term, curTerm End = anyTermEnd, curTermEnd = anyTerm End
+                if (isEditTerm && term.getTermId() == selectedTerm.getTermId()) {
+
+                    validGlobalDates = true;
+
+                } else if ((startTerm.after(startDateLValueDate) && startTerm.before(endDateLValueDate))
+                        || startTerm.equals(startDateLValueDate)
+                        || (endTerm.after(startDateLValueDate) && endTerm.before(endDateLValueDate))
+                        || endTerm.equals(endDateLValueDate)) {
+                    Toast.makeText(this, "Error: Term dates are in the range of existing term: " + term.getTermTitle() + " with Start Date " + startDateLValue + " and End Date " + endDateLValue, Toast.LENGTH_LONG).show();
+                    validGlobalDates = false;
+                    break;
+                } else {
+                    validGlobalDates = true;
+                }
+
             }
-
-            //startTerm is the term im trying to create
-            //startDateLValueDate is the date of the term Im checking against in the datase
-            //Here we are defining when the dates are NOT VALID
-            //if current term start Date is in the range of another term, curTerm Strt = anyTermStart, curTermStart = anyTerm End
-            //if current term end Date is in the range of another term, curTerm End = anyTermEnd, curTermEnd = anyTerm End
-            if (isEditTerm && term.getTermId() == selectedTerm.getTermId()) {
-
-                validGlobalDates = true;
-
-            } else if ((startTerm.after(startDateLValueDate) && startTerm.before(endDateLValueDate))
-                    || startTerm.equals(startDateLValueDate)
-                    || (endTerm.after(startDateLValueDate) && endTerm.before(endDateLValueDate))
-                    || endTerm.equals(endDateLValueDate)) {
-                Toast.makeText(this, "Error: Term dates are in the range of existing term: " + term.getTermTitle() + " with Start Date " + startDateLValue + " and End Date " + endDateLValue, Toast.LENGTH_LONG).show();
-                validGlobalDates = false;
-                break;
-            } else {
-                validGlobalDates = true;
-            }
-
         }
 
         if (validLocalDates && validGlobalDates) {
