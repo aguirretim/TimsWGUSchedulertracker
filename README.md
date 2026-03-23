@@ -1,5 +1,21 @@
 # TimsWGUSchedulertracker
 
-This Project is for my Mobile Development class that is focused on android development.
+An Android mobile app for tracking WGU (Western Governors University) terms and courses. Helps students manage their degree plan, course progress, and important deadlines.
 
-The goal of the project is to develop a Term and Course Tracker for a student to mange their classes for their degree.
+## Features
+- Add and manage academic terms
+- Track courses within each term with start/end dates
+- Set course status (In Progress, Completed, Dropped, Plan to Take)
+- Add assessment due dates and notes
+- Local notifications for upcoming deadlines
+
+## Tech Stack
+- **Language**: Java
+- **Platform**: Android
+- **Database**: SQLite (Room)
+- **Build**: Gradle / Android Studio
+
+## Getting Started
+1. Clone the repo
+2. Open in Android Studio
+3. Build and run on an emulator or Android device
