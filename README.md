@@ -2,6 +2,9 @@
 
 An Android mobile app for tracking WGU (Western Governors University) terms and courses. Helps students manage their degree plan, course progress, and important deadlines.
 
+![Tims WGU Scheduler tracker running on-device](docs/screenshot.png)
+*The home screen on an Android device — welcome message and navigation to Current Term, All Terms, and Progress.*
+
 ## Features
 - Add and manage academic terms
 - Track courses within each term with start/end dates
